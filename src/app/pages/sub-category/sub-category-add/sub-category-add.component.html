@@ -1,0 +1,115 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel2">
+    <span *ngIf="!isDataLoaded">Please wait...</span>
+    <span *ngIf="isDataLoaded">Adding Category</span></h5>
+  <button type="button" class="close" (click)="closeMe()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form name="pinCategoryForm" method="post" novalidate="novalidate">
+  <div class="modal-body">
+
+    <!-- Loader  -->
+    <div *ngIf="!isDataLoaded" class="row justify-content-center">
+      <div class="col-2">
+        <div class="loader-box">
+          <div class="loader">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Records -->
+    <div *ngIf="isDataLoaded">
+
+      <div class="row">
+
+
+        <div class="col-12">
+
+          <!-- Sub Category Name -->
+          <div class="form-group">
+            <label for="subCategoryName">Sub-Category Name</label>
+            <input name="subCategoryName" type="text" [(ngModel)]="subCategoryName" placeholder="Enter Name"
+              class="form-control form-control-alternative">
+          </div>
+          <!-- Sub Category Name / End-->
+ 
+
+            <!-- Category Name -->
+            <div class="form-row">
+              <div class="col-12 mb-3">
+                <label for="categoryId">Category</label>
+                <select class="form-control input-air-primary" id="categoryId" (change)="onChangeCategory($event.target.value)">
+                  <option value=undefined>Select Category</option>
+                  <option *ngFor="let cat of categories" value="{{cat._id}}">{{cat.name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!-- Category Name / End -->
+
+
+
+          <!-- Sub Category Image Upload -->
+          <div class="row with-forms">
+
+            <label for="inputEmail3" class="col-12 col-form-label">Sub-Category Image</label>
+            <div class="col-6">
+              <button type="button" (click)="subCategoryImageUpload()" class="btn btn-secondary waves-effect m-b-5">
+                <i class="fa fa-image m-r-5"></i>
+                <span>Choose Image</span>
+              </button>
+              <input id="subCategoryImage" (change)="subCategoryImageGetfiles($event)" accept="image/png, image/jpeg"
+                type="file" style="display: none;" autocomplete="off">
+
+            </div>
+
+
+            <br />
+            <!-- <p *ngIf="listingGalleryUrl.length > 0">Bridal Room Images</p> -->
+            <div class="_2vNUv" aria-disabled="false" *ngIf="subCategoryImageUrl.length > 0">
+              <div class="q_7hS" data-aut-id="imagesPreview">
+                <ul class="_3IhNg"></ul>
+
+
+                <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of subCategoryImageUrl; let i=index;">
+                  <div class="_3BJtT " data-aut-id="listSortable">
+                    <div class="_20pqz" [ngStyle]="{'background-image': 'url(' + url + ')'}" data-aut-id="image"></div>
+                    <a class="_1cS9Q">
+                      <span (click)="removeImage(i,'subCategoryImage')" class="rui-1XUas rui-3_XwO"></span>
+                    </a>
+                  </div>
+                </li>
+
+              </div>
+            </div>
+
+          </div>
+          <!-- Sub Category Image Upload / End -->
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <div *ngIf="isDataLoaded" class="modal-footer">
+
+    <div *ngIf="isRequested">
+      <button type="button" class="btn btn-default" (click)="closeMe()" style="margin-right: 10px;">Close</button>
+      <button type="submit" class="btn btn-primary" (click)="submitData()">Submit</button>
+    </div>
+    <!-- Loader  -->
+    <div *ngIf="!isRequested">
+      <button type="button" class="btn btn-default">Please Wait...</button>
+    </div>
+
+  </div>
+
+</form>

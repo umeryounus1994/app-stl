@@ -1,0 +1,136 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel2">
+    <span *ngIf="!isDataLoaded">Please wait...</span>
+    <span *ngIf="isDataLoaded">Updating {{categoryName}} Category</span></h5>
+  <button type="button" class="close" (click)="closeMe()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form name="pinCategoryForm" method="post" novalidate="novalidate">
+  <div class="modal-body">
+
+    <!-- Loader  -->
+    <div *ngIf="!isDataLoaded" class="row justify-content-center">
+      <div class="col-2">
+        <div class="loader-box">
+          <div class="loader">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Records -->
+    <div *ngIf="isDataLoaded">
+
+      <div class="row">
+
+
+        <div class="col-12">
+
+
+
+
+          <!-- Full Name -->
+          <!-- <div class="form-row">
+            <div class="col-12 mb-3">
+              <label for="fullName">Full Name</label>
+              <input type="text" class="form-control input-air-primary" id="fullName" formControlName="fullName"
+                [ngClass]="{ 'is-invalid': submitted && f.fullName.errors }" autocomplete="new-password">
+
+              <div *ngIf="submitted && f['fullName'].errors" class="text text-danger">
+                <div *ngIf="f['fullName'].errors.required">Required</div>
+              </div>
+            </div>
+          </div> -->
+          <div class="form-group">
+            <label for="categoryName">Category Name</label>
+            <input name="categoryName" type="text" [(ngModel)]="categoryName" placeholder="Enter Name"
+              class="form-control form-control-alternative">
+          </div>
+
+         
+
+          <!-- Pin Category Image Upload -->
+          <div class="row with-forms">
+
+            <label for="inputEmail3" class="col-12 col-form-label">Category Image</label>
+            <div class="col-6">
+              <button type="button" (click)="categoryImageUpload()" class="btn btn-secondary waves-effect m-b-5">
+                <i class="fa fa-image m-r-5"></i>
+                <span>Choose Image</span>
+              </button>
+              <input id="categoryImage" (change)="categoryImageGetfiles($event)" accept="image/png, image/jpeg"
+                type="file" style="display: none;" autocomplete="off">
+
+            </div>
+
+
+            <br />
+
+            <!-- Already Added pin Category Image Preview Start-->
+            <div class="_2vNUv" aria-disabled="false" *ngIf="downloadedCategoryImage.length > 0 && categoryImageUrl.length < 1">
+              <div class="q_7hS" data-aut-id="imagesPreview">
+                    <ul class="_3IhNg"></ul>
+
+
+                    <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of downloadedCategoryImage; let i=index;">
+                      <!-- <p>{{url}}</p>    -->
+                      <div class="_3BJtT " data-aut-id="listSortable">
+                                <div class="_20pqz" [ngStyle]="{'background-image': 'url(' + url + ')'}" data-aut-id="image"></div>
+                                <a class="_1cS9Q">
+                                      <!-- <span (click)="deleteMainImage(url)" class="rui-1XUas rui-3_XwO"></span> -->
+                                </a>
+                          </div>
+                    </li>
+
+              </div>
+            </div>
+            <!-- Already Added pin Category Image Preview End-->
+           
+              <!-- New pin Category Image upload Preview Start -->
+            <div class="_2vNUv" aria-disabled="false" *ngIf="categoryImageUrl.length > 0">
+              <div class="q_7hS" data-aut-id="imagesPreview">
+                <ul class="_3IhNg"></ul>
+
+
+                <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of categoryImageUrl; let i=index;">
+                  <div class="_3BJtT " data-aut-id="listSortable">
+                    <div class="_20pqz" [ngStyle]="{'background-image': 'url(' + url + ')'}" data-aut-id="image"></div>
+                    <a class="_1cS9Q">
+                      <span (click)="removeImage(i,'categoryImage')" class="rui-1XUas rui-3_XwO"></span>
+                    </a>
+                  </div>
+                </li>
+
+              </div>
+            </div>
+            <!-- New pin Category Image upload Preview End -->
+
+          </div>
+          <!-- Pin Category Image Upload / End -->
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <div *ngIf="isDataLoaded" class="modal-footer">
+
+    <div *ngIf="isRequested">
+      <button type="button" class="btn btn-default" (click)="closeMe()" style="margin-right: 10px;">Close</button>
+      <button type="submit" class="btn btn-primary" (click)="submitData()">Submit</button>
+    </div>
+    <!-- Loader  -->
+    <div *ngIf="!isRequested">
+      <button type="button" class="btn btn-default">Please Wait...</button>
+    </div>
+
+  </div>
+
+</form>

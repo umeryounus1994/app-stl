@@ -1,0 +1,171 @@
+<!-- Container-fluid starts -->
+<div class="container-fluid">
+  <div class="page-header">
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>Dashboard</h3>
+      </div>
+      <div class="col-lg-6">
+        <p class="breadcrumb pull-right">Refresed: &nbsp;<span>{{lastRefreshed}}</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends -->
+
+<!-- Container-fluid starts -->
+<div class="container-fluid">
+
+  <!-- Loader  -->
+  <div *ngIf="!isDataLoaded" class="row justify-content-center">
+    <div class="col-2">
+      <div class="loader-box">
+        <div class="loader">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data -->
+  <div *ngIf="isDataLoaded">
+
+    <div class="row justify-content-center">
+
+      <!-- Total Sales Chart -->
+      <div class="col-md-7 col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>Check Currency</h5>
+          </div>
+          <div class="card-body">
+
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label" for="currencyCode">Currency Code:</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control input-air-primary" id="currencyCode"
+                  [(ngModel)]="currency.currencyCode" (keyup)="setCurrencyByCode()">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label" for="currencyId">Currency:</label>
+              <div class="col-sm-8">
+                <select class="form-control input-air-primary digits" id="currencyId" [(ngModel)]="currency.currencyId"
+                  (change)="setCurrencyById()">
+                  <option *ngFor="let c of currenciesArray" value="{{c.CurrencyId}}">{{c.FullName}}</option>
+                </select>
+              </div>
+            </div>
+
+
+            <div *ngIf="currency.currencyId !== ''">
+
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label" for="lcCurrency">Local Currency:</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control input-air-primary" id="lcCurrency" [(ngModel)]="lcCurrency"
+                    disabled>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label" for="fcCurrency">{{currency.currencyName}}:</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control input-air-primary" id="fcCurrency" [(ngModel)]="fcCurrency"
+                    disabled>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activities -->
+      <!-- <div class="col-md-4 col-sm-12">
+        <div class="">
+          <div class="card height-equal">
+            <div class="card-header">
+              <h5 class="text-uppercase">Recent Activity</h5>
+            </div>
+            <div class="card-body">
+              <ul class="crm-activity equal-height-md">
+                <li class="media">
+                  <span class="mr-3 font-primary">A</span>
+                  <div class="align-self-center media-body">
+                    <h6 class="mt-0">Ahmed is Suspecious</h6>
+                    <ul class="dates">
+                      <li class="digits">25 July 2017</li>
+                      <li class="digits">20 hours ago</li>
+                    </ul>
+                  </div>
+                </li>
+
+                <li class="media">
+                  <span class="mr-3 font-secondary">B</span>
+                  <div class="align-self-center media-body">
+                    <h6 class="mt-0">Bilal is 20+ Customer.</h6>
+                    <ul class="dates">
+                      <li class="digits">25 July 2017</li>
+                      <li class="digits">20 hours ago</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="media">
+                  <span class="mr-3 font-success">T</span>
+                  <div class="align-self-center media-body">
+                    <h6 class="mt-0">There isn't anything embarrassing hidden.</h6>
+                    <ul class="dates">
+                      <li class="digits">25 July 2017</li>
+                      <li class="digits">20 hours ago</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="media">
+                  <span class="mr-3 font-info">C</span>
+                  <div class="align-self-center media-body">
+                    <h6 class="mt-0">Contrary to popular belief, Lorem Ipsum is not simply. </h6>
+                    <ul class="dates">
+                      <li class="digits">25 July 2017</li>
+                      <li class="digits">20 hours ago</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="media">
+                  <span class="mr-3 font-warning">H</span>
+                  <div class="align-self-center media-body">
+                    <h6 class="mt-0">H-Code - A premium portfolio template from ThemeZaa </h6>
+                    <ul class="dates">
+                      <li class="digits">25 July 2017</li>
+                      <li class="digits">20 hours ago</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="media">
+                  <span class="mr-3 font-danger">T</span>
+                  <div class="align-self-center media-body">
+                    <h6 class="mt-0">There isn't anything embarrassing hidden.</h6>
+                    <ul class="dates">
+                      <li class="digits">25 July 2017</li>
+                      <li class="digits">20 hours ago</li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+    </div>
+
+  </div>
+
+</div>
+<!-- Container-fluid Ends -->

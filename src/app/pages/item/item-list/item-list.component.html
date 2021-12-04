@@ -1,0 +1,91 @@
+<!-- Container-fluid starts -->
+<div class="container-fluid">
+  <div class="page-header">
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>Item Management
+          <!-- <small>Universal Admin Panel</small> -->
+        </h3>
+      </div>
+      <div class="col-lg-6 text-right">
+        <button type="button" class="btn btn-pill btn-outline-primary btn-sm" (click)="openAddModal()">Add Item</button>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner 
+bdColor = "rgba(0, 0, 0, 0.8)" 
+size = "large" color = "#fff" 
+type = "line-scale" 
+[fullScreen] = "true">
+<p style="color: white" > </p>
+</ngx-spinner>
+<!-- Container-fluid Ends -->
+<!-- Container-fluid starts -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+
+          <!-- Loader  -->
+          <div *ngIf="!isDataLoaded" class="row justify-content-center">
+            <div class="col-2">
+              <div class="loader-box">
+                <div class="loader">
+                  <div class="line"></div>
+                  <div class="line"></div>
+                  <div class="line"></div>
+                  <div class="line"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Records -->
+          <div *ngIf="isDataLoaded">
+
+            <div *ngIf="pinCategories.length > 0" class="table-responsive">
+
+              <table datatable 
+              [dtOptions]="dtOptions"
+              class="row-border hover">
+              <thead>
+                <tr>
+                  <th>Sr No</th>
+                  <th>Name</th>
+                  <th>Category/Sub-Category</th>
+                  <th>Item Image</th>
+                  <th>Item Modal / File</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let pc of pinCategories; let i = index;">
+                  
+                  <td>{{i+1}}</td>
+                  <td>{{pc.name}}</td>
+                  <td>{{pc.sub_category_id.category_id.name}} - {{pc.sub_category_id.name}}</td>
+                  <td><img src="{{pc.item_image}}" style="height: 55px; width: 55px;"></td>
+                  <td><img src="../../../../assets/images/file.png" style="height: 55px; width: 55px;"></td>
+                  <td> 
+                    <button (click)="selectedPinCategory(pc)" type="button" class="btn btn-pill btn-outline-primary btn-sm" style="margin:10px">Edit</button>
+
+                    <button (click)="deletePinCategory(pc._id)" type="button" class="btn btn-pill btn-outline-danger btn-sm">Delete</button>
+                  </td>
+                </tr>
+      
+              </tbody>
+              </table> 
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- Container-fluid Ends -->

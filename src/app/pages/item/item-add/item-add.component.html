@@ -1,0 +1,151 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel2">
+    <span *ngIf="!isDataLoaded">Please wait...</span>
+    <span *ngIf="isDataLoaded">Adding Item</span></h5>
+  <button type="button" class="close" (click)="closeMe()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form name="pinCategoryForm" method="post" novalidate="novalidate">
+  <div class="modal-body">
+
+    <!-- Loader  -->
+    <div *ngIf="!isDataLoaded" class="row justify-content-center">
+      <div class="col-2">
+        <div class="loader-box">
+          <div class="loader">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Records -->
+    <div *ngIf="isDataLoaded">
+
+      <div class="row">
+
+
+        <div class="col-12">
+
+          <!-- Item Name -->
+          <div class="form-group">
+            <label for="itemName">Item Name</label>
+            <input name="itemName" type="text" [(ngModel)]="itemName" placeholder="Enter Item Name"
+              class="form-control form-control-alternative">
+          </div>
+          <!-- Item Name / End -->
+
+          <!-- Sub Category Name -->
+          <div class="form-row">
+            <div class="col-12 mb-3">
+              <label for="subCategoryId">Sub Category</label>
+              <select class="form-control input-air-primary" id="subCategoryId" (change)="onChangeSubCategory($event.target.value)">
+                <option value=undefined>Select Sub-Category</option>
+                <option *ngFor="let subCat of subCategories" value="{{subCat._id}}">{{subCat.category_id.name}} - {{subCat.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <!-- Sub Category Name / End -->
+
+          <!-- Item Image Upload -->
+          <div class="row with-forms">
+
+            <label for="inputEmail3" class="col-12 col-form-label">Item Image</label>
+            <div class="col-6">
+              <button type="button" (click)="itemImageUpload()" class="btn btn-secondary waves-effect m-b-5">
+                <i class="fa fa-image m-r-5"></i>
+                <span>Choose Image</span>
+              </button>
+              <input id="itemImage" (change)="itemImageGetfiles($event)" accept="image/png, image/jpeg"
+                type="file" style="display: none;" autocomplete="off">
+
+            </div>
+
+
+            <br />
+            <!-- <p *ngIf="listingGalleryUrl.length > 0">Bridal Room Images</p> -->
+            <div class="_2vNUv" aria-disabled="false" *ngIf="itemImageUrl.length > 0">
+              <div class="q_7hS" data-aut-id="imagesPreview">
+                <ul class="_3IhNg"></ul>
+
+
+                <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of itemImageUrl; let i=index;">
+                  <div class="_3BJtT " data-aut-id="listSortable">
+                    <div class="_20pqz" [ngStyle]="{'background-image': 'url(' + url + ')'}" data-aut-id="image"></div>
+                    <a class="_1cS9Q">
+                      <span (click)="removeImage(i,'itemImage')" class="rui-1XUas rui-3_XwO"></span>
+                    </a>
+                  </div>
+                </li>
+
+              </div>
+            </div>
+
+          </div>
+          <!-- Item Image Upload / End -->
+
+
+
+          <!-- Pin Category Map Icon Upload -->
+          <div class="row with-forms">
+
+            <label for="inputEmail3" class="col-12 col-form-label">Item Modal File</label>
+            <div class="col-6">
+              <button type="button" (click)="itemModalUpload()" class="btn btn-secondary waves-effect m-b-5">
+                <i class="fa fa-image m-r-5"></i>
+                <span>Choose File</span>
+              </button>
+              <input id="itemModal" (change)="itemModalGetfiles($event)" accept=""
+                type="file" style="display: none;" autocomplete="off">
+
+            </div>
+
+
+            <br />
+            <!-- <p *ngIf="listingGalleryUrl.length > 0">Bridal Room Images</p> -->
+            <div class="_2vNUv" aria-disabled="false" *ngIf="itemModalUrl.length > 0">
+              <div class="q_7hS" data-aut-id="imagesPreview">
+                <ul class="_3IhNg"></ul>
+
+
+                <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of itemModalUrl; let i=index;">
+                  <div class="_3BJtT " data-aut-id="listSortable">
+                    <div class="_20pqz"  [ngStyle]="{'background-image': 'url(../../../../assets/images/file.png)'}" data-aut-id="image"></div>
+                    <a class="_1cS9Q">
+                      <span (click)="removeImage(i,'itemModal')" class="rui-1XUas rui-3_XwO"></span>
+                    </a>
+                  </div>
+                </li>
+
+              </div>
+            </div>
+
+          </div>
+          <!-- Pin Category Map Icon Upload / End -->
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <div *ngIf="isDataLoaded" class="modal-footer">
+
+    <div *ngIf="isRequested">
+      <button type="button" class="btn btn-default" (click)="closeMe()" style="margin-right: 10px;">Close</button>
+      <button type="submit" class="btn btn-primary" (click)="submitData()">Submit</button>
+    </div>
+    <!-- Loader  -->
+    <div *ngIf="!isRequested">
+      <button type="button" class="btn btn-default">Please Wait...</button>
+    </div>
+
+  </div>
+
+</form>
