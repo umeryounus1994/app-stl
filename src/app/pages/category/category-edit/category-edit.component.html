@@ -51,19 +51,24 @@
             <input name="categoryName" type="text" [(ngModel)]="categoryName" placeholder="Enter Name"
               class="form-control form-control-alternative">
           </div>
+          <div class="form-group">
+            <label for="categoryName">Category Description</label>
+            <input name="categoryDescription" type="text" [(ngModel)]="categoryDescription" placeholder="Enter Description"
+              class="form-control form-control-alternative">
+          </div>
 
          
 
           <!-- Pin Category Image Upload -->
           <div class="row with-forms">
 
-            <label for="inputEmail3" class="col-12 col-form-label">Category Image</label>
+            <label for="inputEmail3" class="col-12 col-form-label">Category Icon</label>
             <div class="col-6">
-              <button type="button" (click)="categoryImageUpload()" class="btn btn-secondary waves-effect m-b-5">
+              <button type="button" (click)="categoryImageUpload('categoryIcon')" class="btn btn-secondary waves-effect m-b-5">
                 <i class="fa fa-image m-r-5"></i>
                 <span>Choose Image</span>
               </button>
-              <input id="categoryImage" (change)="categoryImageGetfiles($event)" accept="image/png, image/jpeg"
+              <input id="categoryIcon" (change)="categoryImageGetfiles($event,'categoryIcon')" accept="image/png, image/jpeg"
                 type="file" style="display: none;" autocomplete="off">
 
             </div>
@@ -72,12 +77,72 @@
             <br />
 
             <!-- Already Added pin Category Image Preview Start-->
-            <div class="_2vNUv" aria-disabled="false" *ngIf="downloadedCategoryImage.length > 0 && categoryImageUrl.length < 1">
+            <div class="_2vNUv row" aria-disabled="false" *ngIf="downloadedCategoryIcon.length > 0 && categoryIconUrl.length < 1">
+              <div class="q_7hS col-md-12" data-aut-id="imagesPreview">
+                    <ul class="_3IhNg"></ul>
+
+
+                    <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of downloadedCategoryIcon; let i=index;">
+                      <!-- <p>{{url}}</p>    -->
+                      <div class="_3BJtT " data-aut-id="listSortable">
+                                <div class="_20pqz" [ngStyle]="{'background-image': 'url(' + url + ')'}" data-aut-id="image"></div>
+                                <a class="_1cS9Q">
+                                      <!-- <span (click)="deleteMainImage(url)" class="rui-1XUas rui-3_XwO"></span> -->
+                                </a>
+                          </div>
+                    </li>
+
+              </div>
+            </div>
+            <br><br>
+            <!-- Already Added pin Category Image Preview End-->
+           
+              <!-- New pin Category Image upload Preview Start -->
+            <div class="_2vNUv row" aria-disabled="false" *ngIf="categoryIconUrl.length > 0">
+              <div class="q_7hS col-md-12" data-aut-id="imagesPreview1">
+                <ul class="_3IhNg"></ul>
+
+
+                <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of categoryIconUrl; let i=index;">
+                  <div class="_3BJtT " data-aut-id="listSortable">
+                    <div class="_20pqz" [ngStyle]="{'background-image': 'url(' + url + ')'}" data-aut-id="image"></div>
+                    <a class="_1cS9Q">
+                      <span (click)="removeImage(i,'categoryIcon')" class="rui-1XUas rui-3_XwO"></span>
+                    </a>
+                  </div>
+                </li>
+
+              </div>
+            </div>
+            <!-- New pin Category Image upload Preview End -->
+
+          </div>
+          <!-- Pin Category Image Upload / End -->
+
+          <!-- Pin Category Image Upload -->
+          <div class="row with-forms">
+
+            <label for="inputEmail3" class="col-12 col-form-label">Category Default Image</label>
+            <div class="col-6">
+              <button type="button" (click)="categoryImageUpload('categoryDefaultImage')" class="btn btn-secondary waves-effect m-b-5">
+                <i class="fa fa-image m-r-5"></i>
+                <span>Choose Image</span>
+              </button>
+              <input id="categoryDefaultImage" (change)="categoryImageGetfiles($event,'categoryDefaultImage')" accept="image/png, image/jpeg"
+                type="file" style="display: none;" autocomplete="off">
+
+            </div>
+
+
+            <br />
+
+            <!-- Already Added pin Category Image Preview Start-->
+            <div class="_2vNUv" aria-disabled="false" *ngIf="downloadedCategoryDefaultImage.length > 0 && categoryDefaultImageUrl.length < 1">
               <div class="q_7hS" data-aut-id="imagesPreview">
                     <ul class="_3IhNg"></ul>
 
 
-                    <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of downloadedCategoryImage; let i=index;">
+                    <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of downloadedCategoryDefaultImage; let i=index;">
                       <!-- <p>{{url}}</p>    -->
                       <div class="_3BJtT " data-aut-id="listSortable">
                                 <div class="_20pqz" [ngStyle]="{'background-image': 'url(' + url + ')'}" data-aut-id="image"></div>
@@ -92,16 +157,16 @@
             <!-- Already Added pin Category Image Preview End-->
            
               <!-- New pin Category Image upload Preview Start -->
-            <div class="_2vNUv" aria-disabled="false" *ngIf="categoryImageUrl.length > 0">
+            <div class="_2vNUv" aria-disabled="false" *ngIf="categoryDefaultImageUrl.length > 0">
               <div class="q_7hS" data-aut-id="imagesPreview">
                 <ul class="_3IhNg"></ul>
 
 
-                <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of categoryImageUrl; let i=index;">
+                <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of categoryDefaultImageUrl; let i=index;">
                   <div class="_3BJtT " data-aut-id="listSortable">
                     <div class="_20pqz" [ngStyle]="{'background-image': 'url(' + url + ')'}" data-aut-id="image"></div>
                     <a class="_1cS9Q">
-                      <span (click)="removeImage(i,'categoryImage')" class="rui-1XUas rui-3_XwO"></span>
+                      <span (click)="removeImage(i,'categoryDefaultImage')" class="rui-1XUas rui-3_XwO"></span>
                     </a>
                   </div>
                 </li>
@@ -112,6 +177,7 @@
 
           </div>
           <!-- Pin Category Image Upload / End -->
+
 
         </div>
 

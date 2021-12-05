@@ -26,7 +26,6 @@ export class CategoryListComponent implements OnInit {
   constructor(private api: RestApiService, private router: Router, private helper: HelperService, private modalService: NgbModal,  private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-    console.log("ngOnInit called")
     this.getCategories();
   }
 
@@ -34,8 +33,6 @@ export class CategoryListComponent implements OnInit {
   getCategories() {
     this.api.get('category/get_all').then((response: any) => {
       this.pinCategories = response.data;
-      // this.pinCategories = this.pinCategories.reverse();
-      console.log(this.pinCategories)
       this.isDataLoaded = true;
     }).catch(err => console.log('Error', err));
   }
@@ -47,7 +44,6 @@ export class CategoryListComponent implements OnInit {
   }
 
   selectedCategory(categoryData) {
-    console.log("categoryData ",categoryData)
      this._openEditModal(categoryData);
   }
 

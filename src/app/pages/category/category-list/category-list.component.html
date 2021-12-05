@@ -55,7 +55,9 @@ type = "line-scale"
                   <th>Sr No</th>
                   <!-- <th>id</th> -->
                   <th>Name</th>
-                  <th>Category Picture</th>
+                  <th>Description</th>
+                  <th>Icon</th>
+                  <th>Default Image</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -65,7 +67,9 @@ type = "line-scale"
                   <td>{{i+1}}</td>
                   <!-- <td>{{pc._id}}</td> -->
                   <td>{{pc.name}}</td>
-                  <td><img src="{{pc.category_image}}" style="height: 55px; width: 55px;"></td>
+                  <td>{{pc.description}}</td>
+                  <td><img src="{{pc.category_icon}}" style="height: 55px; width: 55px;"></td>
+                  <td><img src="{{pc.category_default_image}}" style="height: 55px; width: 55px;"></td>
                   <td> 
                     <button (click)="selectedCategory(pc)" type="button" class="btn btn-pill btn-outline-primary btn-sm" style="margin:10px">Edit</button>
 

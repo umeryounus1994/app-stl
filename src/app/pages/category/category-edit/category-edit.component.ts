@@ -23,14 +23,19 @@ export class CategoryEditComponent implements OnInit {
 
 
   categoryName;
+  categoryDescription;
  
 
   // to show alreaded added images 
-  downloadedCategoryImage=[]
+  downloadedCategoryIcon=[];
+  downloadedCategoryDefaultImage=[];
 
   // For New image add and preview
-  categoryImage = [];
-  categoryImageUrl = [];
+  categoryIcon = [];
+  categoryIconUrl = [];
+
+  categoryDefaultImage = [];
+  categoryDefaultImageUrl = [];
 
   
 
@@ -49,13 +54,12 @@ export class CategoryEditComponent implements OnInit {
 
     this.submitted = false;
     this.isDataLoaded = true;
-    console.log(this.categoryData)
     this.categoryId = this.categoryData._id;
     this.categoryName = this.categoryData.name;
+    this.categoryDescription = this.categoryData.description;
    
-    this.downloadedCategoryImage.push(this.categoryData.category_image)
-    // this.downloadedCategoryImage = this.category.pin_category_image;
-    // this.downloadedcategoryMapIcon = this.category.pin_category_map_icon;
+    this.downloadedCategoryIcon.push(this.categoryData.category_icon)
+    this.downloadedCategoryDefaultImage.push(this.categoryData.category_default_image);
   }
 
   submitData() {
@@ -71,13 +75,16 @@ export class CategoryEditComponent implements OnInit {
 
     const formData: any = new FormData();
       formData.append('name', this.categoryName);
-      for(let i =0; i < this.categoryImage.length; i++){
-        formData.append("category_image", this.categoryImage[i], this.categoryImage[i]['name']);
+      formData.append('description', this.categoryDescription);
+      for(let i =0; i < this.categoryIcon.length; i++){
+        formData.append("category_icon", this.categoryIcon[i], this.categoryIcon[i]['name']);
+      }
+      for(let i =0; i < this.categoryDefaultImage.length; i++){
+        formData.append("category_default_image", this.categoryDefaultImage[i], this.categoryDefaultImage[i]['name']);
       }
 
 
     this.api.patch('category/update/', this.categoryId, formData).then((response: any) => {
-      console.log(response)
       this.helper.successBigToast('Success', 'Successfully Updated!');
       this.ngOnInit();
 
@@ -105,16 +112,19 @@ export class CategoryEditComponent implements OnInit {
     this.activeModal.close();
   }
 
-  categoryImageUpload(){
-    $('#categoryImage').trigger('click');
+  categoryImageUpload(type){
+    if(type == 'categoryIcon'){
+      $('#categoryIcon').trigger('click');
+    } else {
+      $('#categoryDefaultImage').trigger('click');
+    }
   }
 
-  categoryImageGetfiles(event){
-    const files: Array<File> = event.target.files;
+  categoryImageGetfiles(event, type){
+    if(type == 'categoryIcon'){
+      const files: Array<File> = event.target.files;
 
-      console.log("this.categoryImageUrl.length "+this.categoryImageUrl.length)
-
-      if(this.categoryImageUrl.length >0){
+      if(this.categoryIconUrl.length >0){
         alert("You can add only one Image");
         return false;
       }
@@ -125,35 +135,66 @@ export class CategoryEditComponent implements OnInit {
           let reader = new FileReader();
           
           reader.onload = (e: any) => {
-            this.categoryImageUrl.push(e.target.result);
+            this.categoryIconUrl.push(e.target.result);
          }
 
         reader.readAsDataURL(files[i]);
-        this.categoryImage.push(event.target.files[i]); 
+        this.categoryIcon.push(event.target.files[i]); 
+
+      };
+
+      }
+    } else {
+      const files: Array<File> = event.target.files;
+
+      if(this.categoryDefaultImageUrl.length >0){
+        alert("You can add only one Image");
+        return false;
+      }
+
+      else{
+
+        for(let i =0; i < files.length; i++){
+          let reader = new FileReader();
+          
+          reader.onload = (e: any) => {
+            this.categoryDefaultImageUrl.push(e.target.result);
+         }
+
+        reader.readAsDataURL(files[i]);
+        this.categoryDefaultImage.push(event.target.files[i]); 
 
       };
        
-      console.log(this.categoryImage)
-      }
+    }
+  }
+    
 
   }
 
 
+  
   removeImage(index,type){
-    if(type=='categoryImage'){
-      this.categoryImageUrl.splice(index,1);
-      this.categoryImage.splice(index,1);
-      console.log(this.categoryImage)
+    if(type=='categoryIcon'){
+      this.categoryIcon.splice(index,1);
+      this.categoryIconUrl.splice(index,1);
+    } else {
+      this.categoryDefaultImage.splice(index,1);
+      this.categoryDefaultImageUrl.splice(index,1);
     }
   }
 
   validate(){
     if(this.categoryName === '' || this.categoryName == undefined) {
-      this.helper.failureToast("Faliure","Category Name is required");
+      this.helper.failureToast("Faliure"," Category Name is required");
       return false;
     }
-    if(this.categoryImageUrl.length == 0 && this.downloadedCategoryImage.length == 0) {
-      this.helper.failureToast("Faliure","Category Image is required");
+    if(this.categoryIconUrl.length == 0 && this.downloadedCategoryIcon.length == 0) {
+      this.helper.failureToast("Faliure"," Category Icon is required");
+      return false;
+    }   
+    if(this.categoryDefaultImageUrl.length == 0 && this.downloadedCategoryIcon.length == 0) {
+      this.helper.failureToast("Faliure"," Category Default Image is required");
       return false;
     }    
     else{

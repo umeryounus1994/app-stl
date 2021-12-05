@@ -21,19 +21,18 @@ export class CategoryAddComponent implements OnInit {
   paidBoolean = false;
 
   categoryName;
+  categoryDescription;
 
-  categoryImage = [];
-  categoryImageUrl = [];
+  categoryIcon = [];
+  categoryIconUrl = [];
+
+  categoryDefaultImage = [];
+  categoryDefaultImageUrl = [];
 
   userId;
 
   constructor(private fb: FormBuilder, private api: RestApiService, private helper: HelperService,
     private auth: AuthService, private router: Router, private activeModal: NgbActiveModal) {
-    // if (this.auth.user.UserID) {
-    //   this.userId = this.auth.user.UserID;
-    // } else {
-    //   this.router.navigateByUrl('auth/login');
-    // }
   }
 
   ngOnInit() {
@@ -56,8 +55,12 @@ export class CategoryAddComponent implements OnInit {
 
     const formData: any = new FormData();
       formData.append('name', this.categoryName);
-      for(let i =0; i < this.categoryImage.length; i++){
-        formData.append("category_image", this.categoryImage[i], this.categoryImage[i]['name']);
+      formData.append('description', this.categoryDescription);
+      for(let i =0; i < this.categoryIcon.length; i++){
+        formData.append("category_icon", this.categoryIcon[i], this.categoryIcon[i]['name']);
+      }
+      for(let i =0; i < this.categoryDefaultImage.length; i++){
+        formData.append("category_default_image", this.categoryDefaultImage[i], this.categoryDefaultImage[i]['name']);
       }
 
     this.api.post('category/add', formData).then((response: any) => {
@@ -70,17 +73,7 @@ export class CategoryAddComponent implements OnInit {
       this.activeModal.close();
 
     }, (error: any) => {
-
       this.isRequested = true;
-
-      if (error.error.Message) {
-        // if (error.error.Message === 'Already Exists') {
-        //   // tslint:disable-next-line: max-line-length
-        //   this.helper.failureBigToast('Failed!', '"' + data.username + '" is already assigned to another user, kindly user different username for login.');
-        //   return;
-        // }
-      }
-
       this.helper.failureBigToast('Failed!', 'Invalid data, kindly check all fields.');
     });
   }
@@ -89,16 +82,19 @@ export class CategoryAddComponent implements OnInit {
     this.activeModal.close();
   }
 
-  categoryImageUpload(){
-    $('#categoryImage').trigger('click');
+  categoryImageUpload(type){
+    if(type == 'categoryIcon'){
+      $('#categoryIcon').trigger('click');
+    } else {
+      $('#categoryDefaultImage').trigger('click');
+    }
   }
 
-  categoryImageGetfiles(event){
-    const files: Array<File> = event.target.files;
+  categoryImageGetfiles(event, type){
+    if(type == 'categoryIcon'){
+      const files: Array<File> = event.target.files;
 
-      console.log("this.categoryImageUrl.length "+this.categoryImageUrl.length)
-
-      if(this.categoryImageUrl.length >0){
+      if(this.categoryIconUrl.length >0){
         alert("You can add only one Image");
         return false;
       }
@@ -109,35 +105,63 @@ export class CategoryAddComponent implements OnInit {
           let reader = new FileReader();
           
           reader.onload = (e: any) => {
-            this.categoryImageUrl.push(e.target.result);
+            this.categoryIconUrl.push(e.target.result);
          }
 
         reader.readAsDataURL(files[i]);
-        this.categoryImage.push(event.target.files[i]); 
+        this.categoryIcon.push(event.target.files[i]); 
 
       };
-       
-      console.log(this.categoryImage)
       }
+    } else {
+      const files: Array<File> = event.target.files;
+
+      if(this.categoryDefaultImageUrl.length >0){
+        alert("You can add only one Image");
+        return false;
+      }
+
+      else{
+
+        for(let i =0; i < files.length; i++){
+          let reader = new FileReader();
+          
+          reader.onload = (e: any) => {
+            this.categoryDefaultImageUrl.push(e.target.result);
+         }
+
+        reader.readAsDataURL(files[i]);
+        this.categoryDefaultImage.push(event.target.files[i]); 
+
+      };
+    }
+  }
+    
 
   }
 
 
   removeImage(index,type){
-    if(type=='categoryImage'){
-      this.categoryImageUrl.splice(index,1);
-      this.categoryImage.splice(index,1);
-      console.log(this.categoryImage)
+    if(type=='categoryIcon'){
+      this.categoryIcon.splice(index,1);
+      this.categoryIconUrl.splice(index,1);
+    } else {
+      this.categoryDefaultImage.splice(index,1);
+      this.categoryDefaultImageUrl.splice(index,1);
     }
   }
 
   validate(){
     if(this.categoryName === '' || this.categoryName == undefined) {
-      this.helper.failureToast("Faliure","Pin Category Name is required");
+      this.helper.failureToast("Faliure"," Category Name is required");
       return false;
     }
-    if(this.categoryImageUrl.length == 0) {
-      this.helper.failureToast("Faliure","Pin Category Image is required");
+    if(this.categoryIconUrl.length == 0) {
+      this.helper.failureToast("Faliure"," Category Icon is required");
+      return false;
+    }   
+    if(this.categoryDefaultImageUrl.length == 0) {
+      this.helper.failureToast("Faliure"," Category Default Image is required");
       return false;
     }    
     else{
