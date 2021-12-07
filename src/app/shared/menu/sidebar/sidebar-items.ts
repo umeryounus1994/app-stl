@@ -21,11 +21,17 @@ export const MenuItemsAdmin: Menu[] = [
     path: '/category/list', title: 'Category', icon: 'icon-menu-alt', type: 'link'
   },
   {
-    path: '/sub_category/list', title: 'Sub Category', icon: 'icon-layout-list-thumb', type: 'link'
+    path: '/variation/list', title: 'Variations', icon: 'icon-menu-alt', type: 'link'
   },
   {
-    path: '/item/list', title: 'Item', icon: 'icon-bag', type: 'link'
+    path: '/products/list', title: 'Products', icon: 'icon-menu-alt', type: 'link'
   },
+  // {
+  //   path: '/sub_category/list', title: 'Sub Category', icon: 'icon-layout-list-thumb', type: 'link'
+  // },
+  // {
+  //   path: '/item/list', title: 'Item', icon: 'icon-bag', type: 'link'
+  // },
 
   
 
