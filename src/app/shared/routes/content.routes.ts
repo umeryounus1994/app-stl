@@ -18,7 +18,7 @@ export const content: Routes = [
     loadChildren: './pages/sub-category/sub-category.module#SubCategoryModule'
   },
   {
-    path: 'item',
+    path: 'products',
     loadChildren: './pages/item/item.module#ItemModule'
   },
 

@@ -23,7 +23,7 @@ export class DashboardAdminComponent implements OnInit {
 
 
   total_categories;
-  total_sub_categories;
+  total_variations;
   total_items;
 
   constructor(private helper: HelperService,  private api: RestApiService) { }
@@ -32,7 +32,7 @@ export class DashboardAdminComponent implements OnInit {
     this.lastRefreshed = this.helper.getCurrentTime();
   
     this.getAllCategories();
-    this.getAllSubCategories();
+    this.getAllVariations();
     this.getAllItem(); 
   }
 
@@ -44,15 +44,15 @@ export class DashboardAdminComponent implements OnInit {
     }).catch(err => console.log('Error', err));
   }
 
-  getAllSubCategories() {
-    this.api.get('sub_category/get_all').then((result: any) => {
-      this.total_sub_categories=result.data.length;
-      console.log("total sub categories"+this.total_sub_categories);
+  getAllVariations() {
+    this.api.get('variation/get_all').then((result: any) => {
+      this.total_variations=result.data.length;
+      console.log("total sub categories"+this.total_variations);
     }).catch(err => console.log('Error', err));
   }
 
   getAllItem() {
-    this.api.get('item/get_all').then((result: any) => {
+    this.api.get('products/get_all').then((result: any) => {
       this.total_items=result.data.length;
       console.log("total items"+this.total_items);
     }).catch(err => console.log('Error', err));

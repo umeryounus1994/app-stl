@@ -23,6 +23,22 @@ export class ItemAddComponent implements OnInit {
   itemName;
   subCategoryId;
 
+  insertForm = {
+    name : '',
+    categoryId: '',
+    variationFlag : '',
+    variationId: '',
+    description: '',
+    width: '',
+    height: '',
+    price: '',
+    productText: '',
+    productLink: '',
+    scalingFlag: '',
+    defaultScaling: '',
+    autoPlayFlag: '',
+  };
+
   itemImage = [];
   itemImageUrl = [];
 
@@ -30,7 +46,8 @@ export class ItemAddComponent implements OnInit {
   itemModalUrl = [];
 
   userId;
-  subCategories;
+  Categories = [];
+  Variations = [];
 
   constructor(private fb: FormBuilder, private api: RestApiService, private helper: HelperService,
     private auth: AuthService, private router: Router, private activeModal: NgbActiveModal) {
@@ -40,14 +57,19 @@ export class ItemAddComponent implements OnInit {
 
     this.submitted = false;
     this.isDataLoaded = true;
-    this.getSubCategories();
+    this.getCategories();
+    this.getVariations();
   }
 
-  getSubCategories() {
-    this.api.get('sub_category/get_all').then((response: any) => {
-      this.subCategories = response.data;
-      // this.subCategories = this.subCategories.reverse();
-      console.log(this.subCategories)
+  getCategories() {
+    this.api.get('category/get_all').then((response: any) => {
+      this.Categories = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
+  getVariations() {
+    this.api.get('variation/get_all').then((response: any) => {
+      this.Variations = response.data;
       this.isDataLoaded = true;
     }).catch(err => console.log('Error', err));
   }
@@ -64,17 +86,27 @@ export class ItemAddComponent implements OnInit {
   _sendSaveRequest() {
 
     const formData: any = new FormData();
-      formData.append('name', this.itemName);
-      formData.append('sub_category_id', this.subCategoryId);
+      formData.append('name', this.insertForm.name);
+      formData.append('categoryId', this.insertForm.categoryId);
+      formData.append('description', this.insertForm.description);
+      formData.append('variationFlag', this.insertForm.variationFlag);
+      formData.append('variationId', this.insertForm.variationId);
+      formData.append('width', this.insertForm.width);
+      formData.append('height', this.insertForm.height);
+      formData.append('price', this.insertForm.price);
+      formData.append('productText', this.insertForm.productText);
+      formData.append('productLink', this.insertForm.productLink);
+      formData.append('scalingFlag', this.insertForm.scalingFlag);
+      formData.append('defaultScaling', this.insertForm.defaultScaling);
+      formData.append('autoPlayFlag', this.insertForm.autoPlayFlag);
+
 
       for(let i =0; i < this.itemImage.length; i++){
-        formData.append("item_image", this.itemImage[i], this.itemImage[i]['name']);
-      }
-      for(let i =0; i < this.itemModal.length; i++){
-        formData.append("item_modal", this.itemModal[i], this.itemModal[i]['name']);
+        formData.append("model", this.itemImage[i], this.itemImage[i]['name']);
       }
 
-    this.api.post('item/Add', formData).then((response: any) => {
+      console.log(this.insertForm);
+    this.api.post('products/add', formData).then((response: any) => {
 
       this.helper.successBigToast('Success', 'Successfully added!');
       this.ngOnInit();
@@ -183,20 +215,24 @@ export class ItemAddComponent implements OnInit {
   }
 
   validate(){
-    if(this.itemName === '' || this.itemName == undefined) {
-      this.helper.failureToast("Faliure","Item Name is required");
+    if(this.insertForm.name === '' || this.insertForm.name == undefined) {
+      this.helper.failureToast("Faliure","Name is required");
       return false;
     }
-    if(this.subCategoryId == '' || this.subCategoryId == undefined) {
-      this.helper.failureToast("Faliure","Sub Category is required");
+    if(this.insertForm.categoryId == '' || this.insertForm.categoryId == undefined) {
+      this.helper.failureToast("Faliure","Category is required");
+      return false;
+    }
+    if(this.insertForm.width == '' || this.insertForm.width == undefined) {
+      this.helper.failureToast("Faliure","Width is required");
+      return false;
+    }
+    if(this.insertForm.defaultScaling == '' || this.insertForm.defaultScaling == undefined) {
+      this.helper.failureToast("Faliure","Default Scaling is required");
       return false;
     }
     if(this.itemImageUrl.length == 0) {
-      this.helper.failureToast("Faliure","Item Image is required");
-      return false;
-    }
-    if(this.itemModalUrl.length == 0) {
-      this.helper.failureToast("Faliure","Item Modal File is required");
+      this.helper.failureToast("Faliure","Model Image is required");
       return false;
     }
     

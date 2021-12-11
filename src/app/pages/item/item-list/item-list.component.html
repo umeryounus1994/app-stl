@@ -3,12 +3,12 @@
   <div class="page-header">
     <div class="row">
       <div class="col-lg-6">
-        <h3>Item Management
+        <h3>Product Management
           <!-- <small>Universal Admin Panel</small> -->
         </h3>
       </div>
       <div class="col-lg-6 text-right">
-        <button type="button" class="btn btn-pill btn-outline-primary btn-sm" (click)="openAddModal()">Add Item</button>
+        <button type="button" class="btn btn-pill btn-outline-primary btn-sm" (click)="openAddModal()">Add Product</button>
       </div>
     </div>
   </div>
@@ -54,9 +54,10 @@ type = "line-scale"
                 <tr>
                   <th>Sr No</th>
                   <th>Name</th>
-                  <th>Category/Sub-Category</th>
+                  <th>Category/Variation</th>
                   <th>Item Image</th>
-                  <th>Item Modal / File</th>
+                  <th>Variation</th>
+                  <th>Price</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -65,9 +66,10 @@ type = "line-scale"
                   
                   <td>{{i+1}}</td>
                   <td>{{pc.name}}</td>
-                  <td>{{pc.sub_category_id.category_id.name}} - {{pc.sub_category_id.name}}</td>
-                  <td><img src="{{pc.item_image}}" style="height: 55px; width: 55px;"></td>
-                  <td><img src="../../../../assets/images/file.png" style="height: 55px; width: 55px;"></td>
+                  <td>{{pc.categoryId.name}} - {{pc.variationId.name}}</td>
+                  <td><img src="{{pc.model}}" style="height: 55px; width: 55px;"></td>
+                  <td>{{pc.variationFlag}}</td>
+                  <td>{{pc.price}}</td>
                   <td> 
                     <button (click)="selectedPinCategory(pc)" type="button" class="btn btn-pill btn-outline-primary btn-sm" style="margin:10px">Edit</button>
 

@@ -27,15 +27,13 @@ export class ItemListComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("ngOnInit called")
-    this.getItems();
+    this.getProducts();
   }
 
 
-  getItems() {
-    this.api.get('item/get_all').then((response: any) => {
+  getProducts() {
+    this.api.get('products/get_all').then((response: any) => {
       this.pinCategories = response.data;
-      // this.pinCategories = this.pinCategories.reverse();
-      console.log(this.pinCategories)
       this.isDataLoaded = true;
     }).catch(err => console.log('Error', err));
   }
@@ -57,7 +55,7 @@ export class ItemListComponent implements OnInit {
   }
 
   deletePinCategory(pinCategoryId) {
-    let text = 'You want to delete this Item?';
+    let text = 'You want to delete this Product?';
     Swal({
       title: 'Are you sure?',
       text: text,
@@ -81,8 +79,8 @@ export class ItemListComponent implements OnInit {
         .then((response: any) => {
           if (response.status === true) {
             this.spinner.hide();
-            this.helper.successToast('Success', "Item Deleted Successfully");
-            this.getItems();
+            this.helper.successToast('Success', "Product Deleted Successfully");
+            this.getProducts();
           } else {
             this.spinner.hide();
             this.helper.failureToast('Status', response.message);
@@ -95,7 +93,7 @@ export class ItemListComponent implements OnInit {
         // tslint:disable-next-line: deprecation
         result.dismiss === Swal.DismissReason.cancel
       ) {
-        this.helper.infoToast('', "Item is not deleted");
+        this.helper.infoToast('', "Product is not deleted");
         // Swal(
         //   'Cancelled',
         //   'Pin Category not deleted :)',

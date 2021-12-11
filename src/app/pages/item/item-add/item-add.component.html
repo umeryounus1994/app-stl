@@ -1,7 +1,7 @@
 <div class="modal-header">
   <h5 class="modal-title" id="exampleModalLabel2">
     <span *ngIf="!isDataLoaded">Please wait...</span>
-    <span *ngIf="isDataLoaded">Adding Item</span></h5>
+    <span *ngIf="isDataLoaded">Adding Product</span></h5>
   <button type="button" class="close" (click)="closeMe()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -27,35 +27,120 @@
     <div *ngIf="isDataLoaded">
 
       <div class="row">
-
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="itemName">Product Name</label>
+            <input name="name" type="text" [(ngModel)]="insertForm.name" required placeholder="Product Name"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="itemName">Category</label>
+            <select class="form-control input-air-primary" [(ngModel)]="insertForm.categoryId" name="categoryId" id="CategoryId" required (change)="onChangeSubCategory($event.target.value)">
+              <option value="" selected>Select Category</option>
+              <option *ngFor="let subCat of Categories" value="{{subCat._id}}">{{subCat.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="itemName">Has Variation?</label>
+            <select class="form-control input-air-primary" [(ngModel)]="insertForm.variationFlag" name="variationFlag" id="variationFlag" required>
+              <option value="" selected>Select</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="itemName">Variation</label>
+            <select class="form-control input-air-primary" [(ngModel)]="insertForm.variationId" name="variationId" id="variationId">
+              <option value="" selected>Select Variation</option>
+              <option *ngFor="let varts of Variations" value="{{varts._id}}">{{varts.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="itemName">Description</label>
+            <input name="description" type="text" [(ngModel)]="insertForm.description" required placeholder="Description"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="itemName">Width</label>
+            <input name="width" type="text" [(ngModel)]="insertForm.width" required placeholder="Width"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="itemName">Height</label>
+            <input name="height" type="text" [(ngModel)]="insertForm.height" placeholder="Height"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="itemName">Price</label>
+            <input name="price" type="text" [(ngModel)]="insertForm.price" placeholder="Price"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="itemName">Product Text</label>
+            <input name="productText" type="text" [(ngModel)]="insertForm.productText" placeholder="Product Text"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="itemName">Product Link</label>
+            <input name="productLink" type="text" [(ngModel)]="insertForm.productLink" placeholder="Product Link"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="itemName">Has Scaling?</label>
+            <select class="form-control input-air-primary" [(ngModel)]="insertForm.scalingFlag" name="scalingFlag" id="scalingFlag" required>
+              <option value="" selected>Select</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="itemName">Default Scaling</label>
+            <input name="defaultScaling" type="text" [(ngModel)]="insertForm.defaultScaling" placeholder="Default Scaling e.g. 10%"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="itemName">Auto Play Flag</label>
+            <select class="form-control input-air-primary" [(ngModel)]="insertForm.autoPlayFlag" name="autoPlayFlag" id="autoPlayFlag" required>
+              <option value="" selected>Select</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        </div>
+        
 
         <div class="col-12">
 
-          <!-- Item Name -->
-          <div class="form-group">
-            <label for="itemName">Item Name</label>
-            <input name="itemName" type="text" [(ngModel)]="itemName" placeholder="Enter Item Name"
-              class="form-control form-control-alternative">
-          </div>
-          <!-- Item Name / End -->
-
-          <!-- Sub Category Name -->
-          <div class="form-row">
-            <div class="col-12 mb-3">
-              <label for="subCategoryId">Sub Category</label>
-              <select class="form-control input-air-primary" id="subCategoryId" (change)="onChangeSubCategory($event.target.value)">
-                <option value=undefined>Select Sub-Category</option>
-                <option *ngFor="let subCat of subCategories" value="{{subCat._id}}">{{subCat.category_id.name}} - {{subCat.name}}
-                </option>
-              </select>
-            </div>
-          </div>
-          <!-- Sub Category Name / End -->
-
-          <!-- Item Image Upload -->
+    
           <div class="row with-forms">
 
-            <label for="inputEmail3" class="col-12 col-form-label">Item Image</label>
+            <label for="inputEmail3" class="col-12 col-form-label">Model</label>
             <div class="col-6">
               <button type="button" (click)="itemImageUpload()" class="btn btn-secondary waves-effect m-b-5">
                 <i class="fa fa-image m-r-5"></i>
@@ -89,44 +174,6 @@
           </div>
           <!-- Item Image Upload / End -->
 
-
-
-          <!-- Pin Category Map Icon Upload -->
-          <div class="row with-forms">
-
-            <label for="inputEmail3" class="col-12 col-form-label">Item Modal File</label>
-            <div class="col-6">
-              <button type="button" (click)="itemModalUpload()" class="btn btn-secondary waves-effect m-b-5">
-                <i class="fa fa-image m-r-5"></i>
-                <span>Choose File</span>
-              </button>
-              <input id="itemModal" (change)="itemModalGetfiles($event)" accept=""
-                type="file" style="display: none;" autocomplete="off">
-
-            </div>
-
-
-            <br />
-            <!-- <p *ngIf="listingGalleryUrl.length > 0">Bridal Room Images</p> -->
-            <div class="_2vNUv" aria-disabled="false" *ngIf="itemModalUrl.length > 0">
-              <div class="q_7hS" data-aut-id="imagesPreview">
-                <ul class="_3IhNg"></ul>
-
-
-                <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of itemModalUrl; let i=index;">
-                  <div class="_3BJtT " data-aut-id="listSortable">
-                    <div class="_20pqz"  [ngStyle]="{'background-image': 'url(../../../../assets/images/file.png)'}" data-aut-id="image"></div>
-                    <a class="_1cS9Q">
-                      <span (click)="removeImage(i,'itemModal')" class="rui-1XUas rui-3_XwO"></span>
-                    </a>
-                  </div>
-                </li>
-
-              </div>
-            </div>
-
-          </div>
-          <!-- Pin Category Map Icon Upload / End -->
 
         </div>
 

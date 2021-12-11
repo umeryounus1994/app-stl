@@ -26,6 +26,8 @@ export class ItemEditComponent implements OnInit {
   subCategoryId;
   subCategories;
 
+
+
   // to show alreaded added images 
   downloadedItemImage=[]
   downloadedItemModal=[]
@@ -38,9 +40,24 @@ export class ItemEditComponent implements OnInit {
   itemModal = [];
   itemModalUrl = [];
 
-
+  Categories = [];
+  Variations = [];
   @Input() itemData;
-
+  insertForm = {
+    name : '',
+    categoryId: '',
+    variationFlag : '',
+    variationId: '',
+    description: '',
+    width: '',
+    height: '',
+    price: '',
+    productText: '',
+    productLink: '',
+    scalingFlag: '',
+    defaultScaling: '',
+    autoPlayFlag: '',
+  };
   constructor(
     private fb: FormBuilder, 
     private api: RestApiService, 
@@ -54,21 +71,37 @@ export class ItemEditComponent implements OnInit {
 
     this.submitted = false;
     this.isDataLoaded = true;
-    console.log(this.itemData)
     this.itemId = this.itemData._id;
-    this.itemName = this.itemData.name;
-    this.subCategoryId = this.itemData.sub_category_id._id;
-    this.downloadedItemImage.push(this.itemData.item_image)
-    this.downloadedItemModal.push(this.itemData.item_modal)
+    this.insertForm.name = this.itemData.name;
+    this.insertForm.categoryId = this.itemData.categoryId._id;
+    this.insertForm.variationFlag = this.itemData.variationFlag;
+    this.insertForm.variationId = this.itemData.variationId._id;
+    this.insertForm.description = this.itemData.description;
+    this.insertForm.width = this.itemData.width;
+    this.insertForm.height = this.itemData.height;
+    this.insertForm.price = this.itemData.price;
+    this.insertForm.productText = this.itemData.productText;
+    this.insertForm.productLink = this.itemData.productLink;
+    this.insertForm.scalingFlag = this.itemData.scalingFlag;
+    this.insertForm.defaultScaling = this.itemData.defaultScaling;
+    this.insertForm.autoPlayFlag = this.itemData.autoPlayFlag;
 
-    this.getSubCategories();
+    this.downloadedItemImage.push(this.itemData.model)
+
+    this.getCategories();
+    this.getVariations();
   }
 
 
-  getSubCategories() {
-    this.api.get('sub_category/get_all').then((response: any) => {
-      this.subCategories = response.data;
-      console.log(this.subCategories)
+  getCategories() {
+    this.api.get('category/get_all').then((response: any) => {
+      this.Categories = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
+  getVariations() {
+    this.api.get('variation/get_all').then((response: any) => {
+      this.Variations = response.data;
       this.isDataLoaded = true;
     }).catch(err => console.log('Error', err));
   }
@@ -85,18 +118,26 @@ export class ItemEditComponent implements OnInit {
   _sendSaveRequest() {
 
     const formData: any = new FormData();
-      formData.append('name', this.itemName);
-      formData.append('sub_category_id', this.subCategoryId);
+      formData.append('name', this.insertForm.name);
+      formData.append('categoryId', this.insertForm.categoryId);
+      formData.append('description', this.insertForm.description);
+      formData.append('variationFlag', this.insertForm.variationFlag);
+      formData.append('variationId', this.insertForm.variationId);
+      formData.append('width', this.insertForm.width);
+      formData.append('height', this.insertForm.height);
+      formData.append('price', this.insertForm.price);
+      formData.append('productText', this.insertForm.productText);
+      formData.append('productLink', this.insertForm.productLink);
+      formData.append('scalingFlag', this.insertForm.scalingFlag);
+      formData.append('defaultScaling', this.insertForm.defaultScaling);
+      formData.append('autoPlayFlag', this.insertForm.autoPlayFlag);
+
 
       for(let i =0; i < this.itemImage.length; i++){
-        formData.append("item_image", this.itemImage[i], this.itemImage[i]['name']);
-      }
-      for(let i =0; i < this.itemModal.length; i++){
-        formData.append("item_modal", this.itemModal[i], this.itemModal[i]['name']);
+        formData.append("model", this.itemImage[i], this.itemImage[i]['name']);
       }
 
-    this.api.patch('item/update/', this.itemId, formData).then((response: any) => {
-      console.log(response)
+    this.api.patch('products/update/', this.itemId, formData).then((response: any) => {
       this.helper.successBigToast('Success', 'Successfully Updated!');
       this.ngOnInit();
 
@@ -152,7 +193,6 @@ export class ItemEditComponent implements OnInit {
 
       };
        
-      console.log(this.itemImage)
       }
 
   }
@@ -184,8 +224,7 @@ export class ItemEditComponent implements OnInit {
         this.itemModal.push(event.target.files[i]); 
 
       };
-       
-      console.log(this.itemModal)
+    
       }
 
   }
@@ -204,20 +243,20 @@ export class ItemEditComponent implements OnInit {
   }
 
   validate(){
-    if(this.itemName === '' || this.itemName == undefined) {
-      this.helper.failureToast("Faliure","Item Name is required");
+    if(this.insertForm.name === '' || this.insertForm.name == undefined) {
+      this.helper.failureToast("Faliure","Name is required");
       return false;
     }
-    if(this.subCategoryId == '' || this.subCategoryId == undefined) {
-      this.helper.failureToast("Faliure","Sub Category is required");
+    if(this.insertForm.categoryId == '' || this.insertForm.categoryId == undefined) {
+      this.helper.failureToast("Faliure","Category is required");
       return false;
     }
-    if(this.itemImageUrl.length == 0 && this.downloadedItemImage.length == 0) {
-      this.helper.failureToast("Faliure","Item Image is required");
+    if(this.insertForm.width == '' || this.insertForm.width == undefined) {
+      this.helper.failureToast("Faliure","Width is required");
       return false;
     }
-    if(this.itemModalUrl.length == 0 && this.downloadedItemModal.length == 0) {
-      this.helper.failureToast("Faliure","Item Modal / File is required");
+    if(this.insertForm.defaultScaling == '' || this.insertForm.defaultScaling == undefined) {
+      this.helper.failureToast("Faliure","Default Scaling is required");
       return false;
     }
     
