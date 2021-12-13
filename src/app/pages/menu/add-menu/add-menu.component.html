@@ -1,0 +1,182 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel2">
+    <span *ngIf="!isDataLoaded">Please wait...</span>
+    <span *ngIf="isDataLoaded">Adding Menu Item</span></h5>
+  <button type="button" class="close" (click)="closeMe()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form name="pinCategoryForm" method="post" novalidate="novalidate">
+  <div class="modal-body">
+
+    <!-- Loader  -->
+    <div *ngIf="!isDataLoaded" class="row justify-content-center">
+      <div class="col-2">
+        <div class="loader-box">
+          <div class="loader">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Records -->
+    <div *ngIf="isDataLoaded">
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input name="name" type="text" [(ngModel)]="name" placeholder="Enter Name"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="Description">Description</label>
+            <input name="description" type="text" [(ngModel)]="description" 
+            placeholder="Enter Description"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="pageTitle">Page Title</label>
+            <input name="pageTitle" type="text" [(ngModel)]="pageTitle" 
+            placeholder="Page Title"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="pageText">Page Text</label>
+            <input name="pageText" type="text" [(ngModel)]="pageText" 
+            placeholder="Page Text"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="downLeftBtnHyperlink">Down Left Btn Hyper Link</label>
+            <input name="downLeftBtnHyperlink" type="text" [(ngModel)]="downLeftBtnHyperlink" 
+            placeholder="Page Text"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="downLeftBtnText">Down Left Button Text</label>
+            <input name="downLeftBtnText" type="text" [(ngModel)]="downLeftBtnText" 
+            placeholder="Page Text"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="downRightConfirmBtnText">Down Right Confirm Btn Text</label>
+            <input name="downRightConfirmBtnText" type="text" [(ngModel)]="downRightConfirmBtnText" 
+            placeholder="Page Text"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+
+        <div class="col-12">
+ 
+          <!-- Pin Category Image Upload -->
+          <div class="row with-forms">
+
+            <label for="inputEmail3" class="col-12 col-form-label">Icon</label>
+            <div class="col-6">
+              <button type="button" (click)="categoryImageUpload('categoryIcon')" class="btn btn-secondary waves-effect m-b-5">
+                <i class="fa fa-image m-r-5"></i>
+                <span>Choose Image</span>
+              </button>
+              <input id="categoryIcon" (change)="categoryImageGetfiles($event,'categoryIcon')" accept="image/png, image/jpeg"
+                type="file" style="display: none;" autocomplete="off">
+
+            </div>
+
+
+            <br />
+            <!-- <p *ngIf="listingGalleryUrl.length > 0">Bridal Room Images</p> -->
+            <div class="_2vNUv" aria-disabled="false" *ngIf="categoryIconUrl.length > 0">
+              <div class="q_7hS" data-aut-id="imagesPreview">
+                <ul class="_3IhNg"></ul>
+
+
+                <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of categoryIconUrl; let i=index;">
+                  <div class="_3BJtT " data-aut-id="listSortable">
+                    <div class="_20pqz" [ngStyle]="{'background-image': 'url(' + url + ')'}" data-aut-id="image"></div>
+                    <a class="_1cS9Q">
+                      <span (click)="removeImage(i,'categoryIcon')" class="rui-1XUas rui-3_XwO"></span>
+                    </a>
+                  </div>
+                </li>
+
+              </div>
+            </div>
+        
+
+          </div>
+
+          <div class="row with-forms">
+
+            <label for="inputEmail3" class="col-12 col-form-label">Down Right Confirm Button Icon</label>
+            <div class="col-6">
+              <button type="button" (click)="categoryImageUpload('categoryDefaultImage')" class="btn btn-secondary waves-effect m-b-5">
+                <i class="fa fa-image m-r-5"></i>
+                <span>Choose Image</span>
+              </button>
+              <input id="categoryDefaultImage" (change)="categoryImageGetfiles($event,'categoryDefaultImage')" accept="image/png, image/jpeg"
+                type="file" style="display: none;" autocomplete="off">
+
+            </div>
+
+
+            <br />
+            <!-- <p *ngIf="listingGalleryUrl.length > 0">Bridal Room Images</p> -->
+            <div class="_2vNUv" aria-disabled="false" *ngIf="categoryDefaultImageUrl.length > 0">
+              <div class="q_7hS" data-aut-id="imagesPreview">
+                <ul class="_3IhNg"></ul>
+
+
+                <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of categoryDefaultImageUrl; let i=index;">
+                  <div class="_3BJtT " data-aut-id="listSortable">
+                    <div class="_20pqz" [ngStyle]="{'background-image': 'url(' + url + ')'}" data-aut-id="image"></div>
+                    <a class="_1cS9Q">
+                      <span (click)="removeImage(i,'categoryDefaultImage')" class="rui-1XUas rui-3_XwO"></span>
+                    </a>
+                  </div>
+                </li>
+
+              </div>
+            </div>
+        
+
+          </div>
+          <!-- Pin Category Image Upload / End -->
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <div *ngIf="isDataLoaded" class="modal-footer">
+
+    <div *ngIf="isRequested">
+      <button type="button" class="btn btn-default" (click)="closeMe()" style="margin-right: 10px;">Close</button>
+      <button type="submit" class="btn btn-primary" (click)="submitData()">Submit</button>
+    </div>
+    <!-- Loader  -->
+    <div *ngIf="!isRequested">
+      <button type="button" class="btn btn-default">Please Wait...</button>
+    </div>
+
+  </div>
+
+</form>

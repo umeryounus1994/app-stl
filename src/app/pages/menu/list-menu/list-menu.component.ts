@@ -2,21 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { RestApiService } from '../../../services/api/rest-api.service';
 import { Router } from '@angular/router';
 import { HelperService } from '../../../services/helper/helper.service';
-import { ItemAddComponent } from '../item-add/item-add.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ItemEditComponent } from '../item-edit/item-edit.component';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
-@Component({
-  selector: 'app-item-list',
-  templateUrl: './item-list.component.html',
-  styleUrls: ['./item-list.component.scss']
-})
-export class ItemListComponent implements OnInit {
+import { AddMenuComponent } from '../add-menu/add-menu.component';
+import { EditMenuComponent } from '../edit-menu/edit-menu.component';
 
+@Component({
+  selector: 'app-list-menu',
+  templateUrl: './list-menu.component.html',
+  styleUrls: ['./list-menu.component.scss']
+})
+export class ListMenuComponent implements OnInit {
   isDataLoaded = false;
   userId;
-  pinCategories = [];
+  variationsList = [];
 
   
 
@@ -26,36 +26,35 @@ export class ItemListComponent implements OnInit {
   constructor(private api: RestApiService, private router: Router, private helper: HelperService, private modalService: NgbModal,  private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-    console.log("ngOnInit called")
-    this.getProducts();
+    this.getVariations();
   }
 
 
-  getProducts() {
-    this.api.get('products/get_all').then((response: any) => {
-      this.pinCategories = response.data;
+  getVariations() {
+    this.api.get('menu/get_all').then((response: any) => {
+      this.variationsList = response.data;
       this.isDataLoaded = true;
     }).catch(err => console.log('Error', err));
   }
 
   openAddModal() {
-    const modalRef = this.modalService.open(ItemAddComponent);
+    const modalRef = this.modalService.open(AddMenuComponent);
 
     modalRef.result.then(() => { this.ngOnInit(); }, () => { this.ngOnInit(); });
   }
 
-  selectedPinCategory(itemData) {
-     this._openEditModal(itemData);
+  selectedVariation(variationData) {
+     this._openEditModal(variationData);
   }
 
-  _openEditModal(itemData) {
-    const modalRef = this.modalService.open(ItemEditComponent);
-    modalRef.componentInstance.itemData = itemData;
+  _openEditModal(variationData) {
+    const modalRef = this.modalService.open(EditMenuComponent);
+    modalRef.componentInstance.variationData = variationData;
     modalRef.result.then(() => { this.ngOnInit(); }, () => { this.ngOnInit(); });
   }
 
-  deletePinCategory(pinCategoryId) {
-    let text = 'You want to delete this Product?';
+  deleteVariations(variationId) {
+    let text = 'You want to delete this Menu?';
     Swal({
       title: 'Are you sure?',
       text: text,
@@ -75,12 +74,12 @@ export class ItemListComponent implements OnInit {
       const formData: any = new FormData();
       formData.append('state', "deleted");
         this.spinner.show();
-        this.api.get('products/remove_by_id/'+pinCategoryId)
+        this.api.patch('menu/update/',variationId, formData)
         .then((response: any) => {
           if (response.status === true) {
             this.spinner.hide();
-            this.helper.successToast('Success', "Product Deleted Successfully");
-            this.getProducts();
+            this.helper.successToast('Success', "Menu Deleted Successfully");
+            this.getVariations();
           } else {
             this.spinner.hide();
             this.helper.failureToast('Status', response.message);
@@ -93,7 +92,7 @@ export class ItemListComponent implements OnInit {
         // tslint:disable-next-line: deprecation
         result.dismiss === Swal.DismissReason.cancel
       ) {
-        this.helper.infoToast('', "Product is not deleted");
+        this.helper.infoToast('', "Variation is not deleted");
         // Swal(
         //   'Cancelled',
         //   'Pin Category not deleted :)',
@@ -103,3 +102,4 @@ export class ItemListComponent implements OnInit {
     });
   }
 }
+
