@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,6 +19,7 @@ import { AdminGuard } from './guards/admin/admin.guard';
 import { CustomerGuard } from './guards/customer/customer.guard';
 import { WebStorageModule } from 'ngx-store';
 import { StorageService } from './services/storage/storage.service';
+import { GlobalErrorHandler } from './services/GlobalHandler';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { StorageService } from './services/storage/storage.service';
   ],
   providers: [RestApiService, HelperService, AuthService, StorageService,
     WebStorageModule,
-    AuthGuard, AdminGuard, CustomerGuard],
+    AuthGuard, AdminGuard, CustomerGuard,
+    {provide: ErrorHandler, useClass: GlobalErrorHandler}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
