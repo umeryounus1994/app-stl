@@ -54,7 +54,7 @@ export class VariationListComponent implements OnInit {
     modalRef.result.then(() => { this.ngOnInit(); }, () => { this.ngOnInit(); });
   }
 
-  deleteVariations(variationId) {
+  deleteVariation(variationId) {
     let text = 'You want to delete this Variation?';
     Swal({
       title: 'Are you sure?',

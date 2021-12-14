@@ -25,5 +25,13 @@ export const content: Routes = [
     path: 'menu',
     loadChildren: './pages/menu/menu.module#MenuModule'
   },
+  {
+    path: 'company',
+    loadChildren: './pages/company/company.module#CompanyModule'
+  },
+  {
+    path: 'language',
+    loadChildren: './pages/language/language.module#LanguageModule'
+  },
 
 ];

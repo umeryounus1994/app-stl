@@ -5,23 +5,20 @@ import { HelperService } from '../../../services/helper/helper.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AddMenuComponent } from '../add-menu/add-menu.component';
-import { EditMenuComponent } from '../edit-menu/edit-menu.component';
+import { AddCompanyComponent } from '../add-company/add-company.component';
+import { EditCompanyComponent } from '../edit-company/edit-company.component';
 
 @Component({
-  selector: 'app-list-menu',
-  templateUrl: './list-menu.component.html',
-  styleUrls: ['./list-menu.component.scss']
+  selector: 'app-list-company',
+  templateUrl: './list-company.component.html',
+  styleUrls: ['./list-company.component.scss']
 })
-export class ListMenuComponent implements OnInit {
+export class ListCompanyComponent implements OnInit {
   isDataLoaded = false;
   userId;
   variationsList = [];
 
-  
-
   dtOptions: DataTables.Settings = {};
-
 
   constructor(private api: RestApiService, private router: Router, private helper: HelperService, private modalService: NgbModal,  private spinner: NgxSpinnerService) { }
 
@@ -31,14 +28,14 @@ export class ListMenuComponent implements OnInit {
 
 
   getVariations() {
-    this.api.get('menu/get_all').then((response: any) => {
+    this.api.get('company/get_all').then((response: any) => {
       this.variationsList = response.data;
       this.isDataLoaded = true;
     }).catch(err => console.log('Error', err));
   }
 
   openAddModal() {
-    const modalRef = this.modalService.open(AddMenuComponent);
+    const modalRef = this.modalService.open(AddCompanyComponent);
 
     modalRef.result.then(() => { this.ngOnInit(); }, () => { this.ngOnInit(); });
   }
@@ -48,13 +45,13 @@ export class ListMenuComponent implements OnInit {
   }
 
   _openEditModal(variationData) {
-    const modalRef = this.modalService.open(EditMenuComponent);
+    const modalRef = this.modalService.open(EditCompanyComponent);
     modalRef.componentInstance.variationData = variationData;
     modalRef.result.then(() => { this.ngOnInit(); }, () => { this.ngOnInit(); });
   }
 
   deleteVariation(variationId) {
-    let text = 'You want to delete this Menu?';
+    let text = 'You want to delete this Company Info?';
     Swal({
       title: 'Are you sure?',
       text: text,
@@ -74,11 +71,11 @@ export class ListMenuComponent implements OnInit {
       const formData: any = new FormData();
       formData.append('state', "deleted");
         this.spinner.show();
-        this.api.patch('menu/update/',variationId, formData)
+        this.api.patch('company/update/',variationId, formData)
         .then((response: any) => {
           if (response.status === true) {
             this.spinner.hide();
-            this.helper.successToast('Success', "Menu Deleted Successfully");
+            this.helper.successToast('Success', "Company Info Deleted Successfully");
             this.getVariations();
           } else {
             this.spinner.hide();
@@ -92,7 +89,7 @@ export class ListMenuComponent implements OnInit {
         // tslint:disable-next-line: deprecation
         result.dismiss === Swal.DismissReason.cancel
       ) {
-        this.helper.infoToast('', "Variation is not deleted");
+        this.helper.infoToast('', "Company Info is not deleted");
         // Swal(
         //   'Cancelled',
         //   'Pin Category not deleted :)',
