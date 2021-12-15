@@ -1,0 +1,73 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel2">
+    <span *ngIf="!isDataLoaded">Please wait...</span>
+    <span *ngIf="isDataLoaded">Updating Translation</span></h5>
+  <button type="button" class="close" (click)="closeMe()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form name="pinCategoryForm" method="post" novalidate="novalidate">
+  <div class="modal-body">
+
+    <!-- Loader  -->
+    <div *ngIf="!isDataLoaded" class="row justify-content-center">
+      <div class="col-2">
+        <div class="loader-box">
+          <div class="loader">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Records -->
+    <div *ngIf="isDataLoaded">
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="name">Actual Text</label>
+            <input name="actualText" type="text" [(ngModel)]="actualText" placeholder="Actual Text"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="name">Translated Text</label>
+            <input name="translatedText" type="text" [(ngModel)]="translatedText" placeholder="Translated Text"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="name">Language</label>
+            <select class="form-control input-air-primary" [(ngModel)]="languageId" name="languageId">
+              <option value="" selected>Select Language</option>
+              <option *ngFor="let subCat of Categories" value="{{subCat._id}}">{{subCat.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <div *ngIf="isDataLoaded" class="modal-footer">
+
+    <div *ngIf="isRequested">
+      <button type="button" class="btn btn-default" (click)="closeMe()" style="margin-right: 10px;">Close</button>
+      <button type="submit" class="btn btn-primary" (click)="submitData()">Submit</button>
+    </div>
+    <!-- Loader  -->
+    <div *ngIf="!isRequested">
+      <button type="button" class="btn btn-default">Please Wait...</button>
+    </div>
+
+  </div>
+
+</form>

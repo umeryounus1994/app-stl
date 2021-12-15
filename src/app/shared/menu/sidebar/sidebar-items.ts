@@ -38,6 +38,9 @@ export const MenuItemsAdmin: Menu[] = [
   {
     path: '/language/list', title: 'Language Options', icon: 'icon-menu-alt', type: 'link'
   },
+  {
+    path: '/translation/list', title: 'Translation Options', icon: 'icon-menu-alt', type: 'link'
+  },
   // {
   //   path: '/sub_category/list', title: 'Sub Category', icon: 'icon-layout-list-thumb', type: 'link'
   // },

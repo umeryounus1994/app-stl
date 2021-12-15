@@ -33,5 +33,9 @@ export const content: Routes = [
     path: 'language',
     loadChildren: './pages/language/language.module#LanguageModule'
   },
+  {
+    path: 'translation',
+    loadChildren: './pages/translation/translation.module#TranslationModule'
+  },
 
 ];

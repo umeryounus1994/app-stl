@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminGuard } from 'src/app/guards/admin/admin.guard';
-import { ListLanguageComponent } from './list-language/list-language.component';
+import { ListTranslationComponent } from './list-translation/list-translation.component';
 
 const routes: Routes = [
   {
@@ -9,7 +9,7 @@ const routes: Routes = [
     children: [
       {
         path: 'list',
-        component: ListLanguageComponent,
+        component: ListTranslationComponent,
         canActivate: [AdminGuard]
       },
 
@@ -21,4 +21,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class LanguageRoutingModule { }
+export class TranslationRoutingModule { }

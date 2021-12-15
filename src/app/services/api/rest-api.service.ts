@@ -43,6 +43,18 @@ export class RestApiService {
     });
   }
 
+  postMultiLanguage(path, data) {
+    console.log(data)
+    const headers = { 'Content-Type': 'text/plain;charset=utf-8' };
+    return new Promise((resolve, reject) => {
+      this.http.post(environment.apiURL + '/' + path, data, {headers}).subscribe((response: any) => {
+        resolve(response);
+      }, (error: any) => {
+        reject(error);
+      });
+    });
+  }
+
   patch(path,unique, data) {
     return new Promise((resolve, reject) => {
       this.http.patch(environment.apiURL + '/' + path+unique, data).subscribe((response: any) => {
