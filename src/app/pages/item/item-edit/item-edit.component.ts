@@ -29,8 +29,16 @@ export class ItemEditComponent implements OnInit {
 
 
   // to show alreaded added images 
-  downloadedItemImage=[]
-  downloadedItemModal=[]
+  // to show alreaded added images 
+  downloadedCategoryIcon=[];
+  downloadedCategoryDefaultImage=[];
+
+  // For New image add and preview
+  categoryIcon = [];
+  categoryIconUrl = [];
+
+  categoryDefaultImage = [];
+  categoryDefaultImageUrl = [];
 
 
   // For New image add and preview
@@ -86,7 +94,8 @@ export class ItemEditComponent implements OnInit {
     this.insertForm.defaultScaling = this.itemData.defaultScaling;
     this.insertForm.autoPlayFlag = this.itemData.autoPlayFlag;
 
-    this.downloadedItemImage.push(this.itemData.model)
+    this.downloadedCategoryIcon.push(this.itemData.model)
+    this.downloadedCategoryDefaultImage.push(this.itemData.productImage);
 
     this.getCategories();
     this.getVariations();
@@ -133,8 +142,11 @@ export class ItemEditComponent implements OnInit {
       formData.append('autoPlayFlag', this.insertForm.autoPlayFlag);
 
 
-      for(let i =0; i < this.itemImage.length; i++){
-        formData.append("model", this.itemImage[i], this.itemImage[i]['name']);
+      for(let i =0; i < this.categoryIcon.length; i++){
+        formData.append("model", this.categoryIcon[i], this.categoryIcon[i]['name']);
+      }
+      for(let i =0; i < this.categoryDefaultImage.length; i++){
+        formData.append("productImage", this.categoryDefaultImage[i], this.categoryDefaultImage[i]['name']);
       }
 
     this.api.patch('products/update/', this.itemId, formData).then((response: any) => {
@@ -165,16 +177,19 @@ export class ItemEditComponent implements OnInit {
     this.activeModal.close();
   }
 
-  itemImageUpload(){
-    $('#itemImage').trigger('click');
+  itemImageUpload(type){
+    if(type == 'categoryIcon'){
+      $('#categoryIcon').trigger('click');
+    } else {
+      $('#categoryDefaultImage').trigger('click');
+    }
   }
 
-  itemImageGetfiles(event){
-    const files: Array<File> = event.target.files;
+  itemImageGetfiles(event, type){
+    if(type == 'categoryIcon'){
+      const files: Array<File> = event.target.files;
 
-      console.log("this.itemImageUrl.length "+this.itemImageUrl.length)
-
-      if(this.itemImageUrl.length >0){
+      if(this.categoryIconUrl.length >0){
         alert("You can add only one Image");
         return false;
       }
@@ -185,29 +200,19 @@ export class ItemEditComponent implements OnInit {
           let reader = new FileReader();
           
           reader.onload = (e: any) => {
-            this.itemImageUrl.push(e.target.result);
+            this.categoryIconUrl.push(e.target.result);
          }
 
         reader.readAsDataURL(files[i]);
-        this.itemImage.push(event.target.files[i]); 
+        this.categoryIcon.push(event.target.files[i]); 
 
       };
-       
       }
+    } else {
+      const files: Array<File> = event.target.files;
 
-  }
-
-  itemModalUpload(){
-    $('#itemModal').trigger('click');
-  }
-
-  itemModalGetfiles(event){
-    const files: Array<File> = event.target.files;
-
-      console.log("this.itemModalUrl.length "+this.itemModalUrl.length)
-
-      if(this.itemModalUrl.length >0){
-        alert("You can add only one File");
+      if(this.categoryDefaultImageUrl.length >0){
+        alert("You can add only one Image");
         return false;
       }
 
@@ -217,33 +222,83 @@ export class ItemEditComponent implements OnInit {
           let reader = new FileReader();
           
           reader.onload = (e: any) => {
-            this.itemModalUrl.push(e.target.result);
+            this.categoryDefaultImageUrl.push(e.target.result);
          }
 
         reader.readAsDataURL(files[i]);
-        this.itemModal.push(event.target.files[i]); 
+        this.categoryDefaultImage.push(event.target.files[i]); 
 
       };
-    
+    }
+  }
+
+  }
+
+  // itemModalUpload(){
+  //   $('#itemModal').trigger('click');
+  // }
+
+  itemModalGetfiles(event, type){
+    if(type == 'categoryIcon'){
+      const files: Array<File> = event.target.files;
+
+      if(this.categoryIconUrl.length >0){
+        alert("You can add only one Image");
+        return false;
       }
+
+      else{
+
+        for(let i =0; i < files.length; i++){
+          let reader = new FileReader();
+          
+          reader.onload = (e: any) => {
+            this.categoryIconUrl.push(e.target.result);
+         }
+
+        reader.readAsDataURL(files[i]);
+        this.categoryIcon.push(event.target.files[i]); 
+
+      };
+      }
+    } else {
+      const files: Array<File> = event.target.files;
+
+      if(this.categoryDefaultImageUrl.length >0){
+        alert("You can add only one Image");
+        return false;
+      }
+
+      else{
+
+        for(let i =0; i < files.length; i++){
+          let reader = new FileReader();
+          
+          reader.onload = (e: any) => {
+            this.categoryDefaultImageUrl.push(e.target.result);
+         }
+
+        reader.readAsDataURL(files[i]);
+        this.categoryDefaultImage.push(event.target.files[i]); 
+
+      };
+    }
+  }
 
   }
 
   removeImage(index,type){
-    if(type=='itemModal'){
-      this.itemModalUrl.splice(index,1);
-      this.itemModal.splice(index,1);
-      console.log(this.itemModal)
-    }
-    if(type=='itemImage'){
-      this.itemImageUrl.splice(index,1);
-      this.itemImage.splice(index,1);
-      console.log(this.itemImage)
+    if(type=='categoryIcon'){
+      this.categoryIcon.splice(index,1);
+      this.categoryIconUrl.splice(index,1);
+    } else {
+      this.categoryDefaultImage.splice(index,1);
+      this.categoryDefaultImageUrl.splice(index,1);
     }
   }
 
   validate(){
-    if(this.insertForm.name === '' || this.insertForm.name == undefined) {
+    if(this.insertForm.name == '' || this.insertForm.name == undefined) {
       this.helper.failureToast("Faliure","Name is required");
       return false;
     }
@@ -257,6 +312,14 @@ export class ItemEditComponent implements OnInit {
     }
     if(this.insertForm.defaultScaling == '' || this.insertForm.defaultScaling == undefined) {
       this.helper.failureToast("Faliure","Default Scaling is required");
+      return false;
+    }
+    if(this.categoryIconUrl.length == 0 && this.downloadedCategoryIcon.length == 0) {
+      this.helper.failureToast("Faliure","Model is required");
+      return false;
+    }
+    if(this.categoryDefaultImageUrl.length == 0 && this.downloadedCategoryDefaultImage.length == 0) {
+      this.helper.failureToast("Faliure","Product Image is required");
       return false;
     }
     

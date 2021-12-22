@@ -142,11 +142,11 @@
 
             <label for="inputEmail3" class="col-12 col-form-label">Model</label>
             <div class="col-6">
-              <button type="button" (click)="itemImageUpload()" class="btn btn-secondary waves-effect m-b-5">
+              <button type="button" (click)="itemImageUpload('categoryIcon')" class="btn btn-secondary waves-effect m-b-5">
                 <i class="fa fa-image m-r-5"></i>
                 <span>Choose Image</span>
               </button>
-              <input id="itemImage" (change)="itemImageGetfiles($event)" accept="image/png, image/jpeg"
+              <input id="categoryIcon" (change)="itemImageGetfiles($event,'categoryIcon')"
                 type="file" style="display: none;" autocomplete="off">
 
             </div>
@@ -154,16 +154,16 @@
 
             <br />
             <!-- <p *ngIf="listingGalleryUrl.length > 0">Bridal Room Images</p> -->
-            <div class="_2vNUv" aria-disabled="false" *ngIf="itemImageUrl.length > 0">
+            <div class="_2vNUv" aria-disabled="false" *ngIf="categoryIconUrl.length > 0">
               <div class="q_7hS" data-aut-id="imagesPreview">
                 <ul class="_3IhNg"></ul>
 
 
-                <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of itemImageUrl; let i=index;">
+                <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of categoryIconUrl; let i=index;">
                   <div class="_3BJtT " data-aut-id="listSortable">
                     <div class="_20pqz" [ngStyle]="{'background-image': 'url(' + url + ')'}" data-aut-id="image"></div>
                     <a class="_1cS9Q">
-                      <span (click)="removeImage(i,'itemImage')" class="rui-1XUas rui-3_XwO"></span>
+                      <span (click)="removeImage(i,'categoryIcon')" class="rui-1XUas rui-3_XwO"></span>
                     </a>
                   </div>
                 </li>
@@ -173,6 +173,42 @@
 
           </div>
           <!-- Item Image Upload / End -->
+
+          <div class="row with-forms">
+
+            <label for="inputEmail3" class="col-12 col-form-label">Product Image</label>
+            <div class="col-6">
+              <button type="button" (click)="itemImageUpload('categoryDefaultImage')" class="btn btn-secondary waves-effect m-b-5">
+                <i class="fa fa-image m-r-5"></i>
+                <span>Choose Image</span>
+              </button>
+              <input id="categoryDefaultImage" (change)="itemImageGetfiles($event,'categoryDefaultImage')"
+                type="file" style="display: none;" autocomplete="off">
+
+            </div>
+
+
+            <br />
+            <!-- <p *ngIf="listingGalleryUrl.length > 0">Bridal Room Images</p> -->
+            <div class="_2vNUv" aria-disabled="false" *ngIf="categoryDefaultImageUrl.length > 0">
+              <div class="q_7hS" data-aut-id="imagesPreview">
+                <ul class="_3IhNg"></ul>
+
+
+                <li class="_1mplE zoomImage" draggable="true" *ngFor="let url of categoryDefaultImageUrl; let i=index;">
+                  <div class="_3BJtT " data-aut-id="listSortable">
+                    <div class="_20pqz" [ngStyle]="{'background-image': 'url(' + url + ')'}" data-aut-id="image"></div>
+                    <a class="_1cS9Q">
+                      <span (click)="removeImage(i,'categoryDefaultImage')" class="rui-1XUas rui-3_XwO"></span>
+                    </a>
+                  </div>
+                </li>
+
+              </div>
+            </div>
+        
+
+          </div>
 
 
         </div>

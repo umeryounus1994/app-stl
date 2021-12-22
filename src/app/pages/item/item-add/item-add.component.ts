@@ -45,6 +45,12 @@ export class ItemAddComponent implements OnInit {
   itemModal = [];
   itemModalUrl = [];
 
+  categoryIcon = [];
+  categoryIconUrl = [];
+
+  categoryDefaultImage = [];
+  categoryDefaultImageUrl = [];
+
   userId;
   Categories = [];
   Variations = [];
@@ -76,8 +82,7 @@ export class ItemAddComponent implements OnInit {
 
   submitData() {
     this.submitted = true;
-
-    if (this.validate()) {
+    if (this.validate() == true) {
       this.isRequested = false;
       this._sendSaveRequest();
     }
@@ -99,13 +104,14 @@ export class ItemAddComponent implements OnInit {
       formData.append('scalingFlag', this.insertForm.scalingFlag);
       formData.append('defaultScaling', this.insertForm.defaultScaling);
       formData.append('autoPlayFlag', this.insertForm.autoPlayFlag);
-
-
-      for(let i =0; i < this.itemImage.length; i++){
-        formData.append("model", this.itemImage[i], this.itemImage[i]['name']);
+      
+      for(let i =0; i < this.categoryIcon.length; i++){
+        formData.append("model", this.categoryIcon[i], this.categoryIcon[i]['name']);
+      }
+      for(let i =0; i < this.categoryDefaultImage.length; i++){
+        formData.append("productImage", this.categoryDefaultImage[i], this.categoryDefaultImage[i]['name']);
       }
 
-      console.log(this.insertForm);
     this.api.post('products/add', formData).then((response: any) => {
 
       this.helper.successBigToast('Success', 'Successfully added!');
@@ -135,16 +141,20 @@ export class ItemAddComponent implements OnInit {
     this.activeModal.close();
   }
 
-  itemImageUpload(){
-    $('#itemImage').trigger('click');
+  itemImageUpload(type){
+    //$('#itemImage').trigger('click');
+    if(type == 'categoryIcon'){
+      $('#categoryIcon').trigger('click');
+    } else {
+      $('#categoryDefaultImage').trigger('click');
+    }
   }
 
-  itemImageGetfiles(event){
-    const files: Array<File> = event.target.files;
+  itemImageGetfiles(event,type){
+    if(type == 'categoryIcon'){
+      const files: Array<File> = event.target.files;
 
-      console.log("this.itemImageUrl.length "+this.itemImageUrl.length)
-
-      if(this.itemImageUrl.length >0){
+      if(this.categoryIconUrl.length >0){
         alert("You can add only one Image");
         return false;
       }
@@ -155,29 +165,18 @@ export class ItemAddComponent implements OnInit {
           let reader = new FileReader();
           
           reader.onload = (e: any) => {
-            this.itemImageUrl.push(e.target.result);
+            this.categoryIconUrl.push(e.target.result);
          }
 
         reader.readAsDataURL(files[i]);
-        this.itemImage.push(event.target.files[i]); 
+        this.categoryIcon.push(event.target.files[i]); 
 
       };
-       
-      console.log(this.itemImage)
       }
+    } else {
+      const files: Array<File> = event.target.files;
 
-  }
-
-  itemModalUpload(){
-    $('#itemModal').trigger('click');
-  }
-
-  itemModalGetfiles(event){
-    const files: Array<File> = event.target.files;
-
-      console.log("this.itemModalUrl.length "+this.itemModalUrl.length)
-
-      if(this.itemModalUrl.length >0){
+      if(this.categoryDefaultImageUrl.length >0){
         alert("You can add only one Image");
         return false;
       }
@@ -188,34 +187,31 @@ export class ItemAddComponent implements OnInit {
           let reader = new FileReader();
           
           reader.onload = (e: any) => {
-            this.itemModalUrl.push(e.target.result);
+            this.categoryDefaultImageUrl.push(e.target.result);
          }
 
         reader.readAsDataURL(files[i]);
-        this.itemModal.push(event.target.files[i]); 
+        this.categoryDefaultImage.push(event.target.files[i]); 
 
       };
-       
-      console.log(this.itemModal)
-      }
+    }
+  }
 
   }
+
 
   removeImage(index,type){
-    if(type=='itemModal'){
-      this.itemModalUrl.splice(index,1);
-      this.itemModal.splice(index,1);
-      console.log(this.itemModal)
-    }
-    if(type=='itemImage'){
-      this.itemImageUrl.splice(index,1);
-      this.itemImage.splice(index,1);
-      console.log(this.itemImage)
+    if(type=='categoryIcon'){
+      this.categoryIcon.splice(index,1);
+      this.categoryIconUrl.splice(index,1);
+    } else {
+      this.categoryDefaultImage.splice(index,1);
+      this.categoryDefaultImageUrl.splice(index,1);
     }
   }
 
   validate(){
-    if(this.insertForm.name === '' || this.insertForm.name == undefined) {
+    if(this.insertForm.name == '' || this.insertForm.name == undefined) {
       this.helper.failureToast("Faliure","Name is required");
       return false;
     }
@@ -231,8 +227,12 @@ export class ItemAddComponent implements OnInit {
       this.helper.failureToast("Faliure","Default Scaling is required");
       return false;
     }
-    if(this.itemImageUrl.length == 0) {
-      this.helper.failureToast("Faliure","Model Image is required");
+    if(this.categoryIconUrl.length == 0) {
+      this.helper.failureToast("Faliure","Model is required");
+      return false;
+    }
+    if(this.categoryDefaultImageUrl.length == 0) {
+      this.helper.failureToast("Faliure","Product Image is required");
       return false;
     }
     
