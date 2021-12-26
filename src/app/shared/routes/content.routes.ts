@@ -22,6 +22,14 @@ export const content: Routes = [
     loadChildren: './pages/item/item.module#ItemModule'
   },
   {
+    path: 'parts',
+    loadChildren: './pages/parts/parts.module#PartsModule'
+  },
+  {
+    path: 'textures',
+    loadChildren: './pages/textures/textures.module#TexturesModule'
+  },
+  {
     path: 'menu',
     loadChildren: './pages/menu/menu.module#MenuModule'
   },

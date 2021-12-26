@@ -27,6 +27,12 @@ export const MenuItemsAdmin: Menu[] = [
     path: '/products/list', title: 'Products', icon: 'icon-menu-alt', type: 'link'
   },
   {
+    path: '/parts/list', title: 'Parts', icon: 'icon-menu-alt', type: 'link'
+  },
+  {
+    path: '/textures/list', title: 'Textures', icon: 'icon-menu-alt', type: 'link'
+  },
+  {
     headTitle: 'Configurations'
   },
   {
