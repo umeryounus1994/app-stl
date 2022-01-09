@@ -42,6 +42,10 @@ export const content: Routes = [
     loadChildren: './pages/language/language.module#LanguageModule'
   },
   {
+    path: 'tcategories',
+    loadChildren: './pages/translationcategories/translationcategories.module#TranslationcategoriesModule'
+  },
+  {
     path: 'translation',
     loadChildren: './pages/translation/translation.module#TranslationModule'
   },

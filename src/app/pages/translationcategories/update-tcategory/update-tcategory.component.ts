@@ -7,11 +7,11 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { HelperService } from 'src/app/services/helper/helper.service';
 
 @Component({
-  selector: 'app-edit-language',
-  templateUrl: './edit-language.component.html',
-  styleUrls: ['./edit-language.component.scss']
+  selector: 'app-update-tcategory',
+  templateUrl: './update-tcategory.component.html',
+  styleUrls: ['./update-tcategory.component.scss']
 })
-export class EditLanguageComponent implements OnInit {
+export class UpdateTcategoryComponent implements OnInit {
 
   userForm: FormGroup;
 
@@ -21,7 +21,6 @@ export class EditLanguageComponent implements OnInit {
   paidBoolean = false;
 
   name;
-  shortName;
   introVideo;
   hyperlink;
 
@@ -50,10 +49,6 @@ export class EditLanguageComponent implements OnInit {
 
     this.menuId = this.variationData._id;
     this.name = this.variationData.name;
-    this.shortName = this.variationData.shortName;
-   
-    this.downloadedCategoryIcon.push(this.variationData.logo)
-
   }
 
   submitData() {
@@ -67,15 +62,12 @@ export class EditLanguageComponent implements OnInit {
 
   _sendSaveRequest() {
 
-    const formData: any = new FormData();
-      formData.append('name', this.name);
-      formData.append('shortName', this.shortName);
-      for(let i =0; i < this.categoryIcon.length; i++){
-        formData.append("logo", this.categoryIcon[i], this.categoryIcon[i]['name']);
-      }
+    var d = {
+      "name": this.name
+    }
 
-      this.api.patch('language/update/', this.menuId, formData).then((response: any) => {
-      this.helper.successBigToast('Success', 'Language Successfully Updated!');
+      this.api.patch('transCat/update/', this.menuId, d).then((response: any) => {
+      this.helper.successBigToast('Success', 'Category Info Successfully Updated!');
       this.ngOnInit();
 
       this.isRequested = true;
@@ -92,57 +84,12 @@ export class EditLanguageComponent implements OnInit {
     this.activeModal.close();
   }
 
-  categoryImageUpload(type){
-    if(type == 'categoryIcon'){
-      $('#categoryIcon').trigger('click');
-    } 
-  }
-
-  categoryImageGetfiles(event, type){
-    if(type == 'categoryIcon'){
-      const files: Array<File> = event.target.files;
-
-      if(this.categoryIconUrl.length >0){
-        alert("You can add only one Image");
-        return false;
-      }
-
-      else{
-
-        for(let i =0; i < files.length; i++){
-          let reader = new FileReader();
-          
-          reader.onload = (e: any) => {
-            this.categoryIconUrl.push(e.target.result);
-         }
-
-        reader.readAsDataURL(files[i]);
-        this.categoryIcon.push(event.target.files[i]); 
-
-      };
-      }
-    } 
-    
-
-  }
-
-
-  removeImage(index,type){
-    if(type=='categoryIcon'){
-      this.categoryIcon.splice(index,1);
-      this.categoryIconUrl.splice(index,1);
-    } 
-  }
 
   validate(){
     if(this.name === '' || this.name == undefined) {
       this.helper.failureToast("Faliure"," Name is required");
       return false;
-    }
-    if(this.categoryIconUrl.length == 0 && this.downloadedCategoryIcon.length == 0) {
-      this.helper.failureToast("Faliure"," Icon is required");
-      return false;
-    }     
+    }   
     else{
       return true;
     }

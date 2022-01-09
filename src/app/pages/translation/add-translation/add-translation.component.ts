@@ -21,9 +21,11 @@ export class AddTranslationComponent implements OnInit {
   actualText;
   translatedText;
   languageId;
+  categoryId;
 
   userId;
   Categories = [];
+  variationsList = [];
   constructor(private fb: FormBuilder, private api: RestApiService, private helper: HelperService,
     private auth: AuthService, private router: Router, private activeModal: NgbActiveModal) {
   }
@@ -32,11 +34,18 @@ export class AddTranslationComponent implements OnInit {
     this.submitted = false;
     this.isDataLoaded = true;
     this.getLanguages();
+    this.getVariations();
   }
 
   getLanguages() {
     this.api.get('language/get_all').then((response: any) => {
       this.Categories = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
+  getVariations() {
+    this.api.get('transCat/get_all').then((response: any) => {
+      this.variationsList = response.data;
       this.isDataLoaded = true;
     }).catch(err => console.log('Error', err));
   }
@@ -54,9 +63,9 @@ export class AddTranslationComponent implements OnInit {
   _sendSaveRequest() {
 
       var d = {
-        'actualText': this.actualText,
         'translatedText': this.translatedText,
         'languageId': this.languageId,
+        'categoryId': this.categoryId
       };
 
 
@@ -75,16 +84,16 @@ export class AddTranslationComponent implements OnInit {
     });
   }
   validate(){
-    if(this.actualText === '' || this.actualText == undefined) {
-      this.helper.failureToast("Faliure"," Actual Text is required");
-      return false;
-    }
     if(this.translatedText === '' || this.translatedText == undefined) {
       this.helper.failureToast("Faliure"," Translated Text is required");
       return false;
     }
     if(this.languageId === '' || this.languageId == undefined) {
       this.helper.failureToast("Faliure"," Language is required");
+      return false;
+    }
+    if(this.categoryId === '' || this.categoryId == undefined) {
+      this.helper.failureToast("Faliure"," Category is required");
       return false;
     }
       

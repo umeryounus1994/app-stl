@@ -20,6 +20,7 @@ export class AddLanguageComponent implements OnInit {
   paidBoolean = false;
 
   name;
+  shortName;
  
 
   categoryIcon = [];
@@ -53,6 +54,7 @@ export class AddLanguageComponent implements OnInit {
 
     const formData: any = new FormData();
       formData.append('name', this.name);
+      formData.append('shortName', this.shortName);
       for(let i =0; i < this.categoryIcon.length; i++){
         formData.append("logo", this.categoryIcon[i], this.categoryIcon[i]['name']);
       }

@@ -45,6 +45,9 @@ export const MenuItemsAdmin: Menu[] = [
     path: '/language/list', title: 'Language Options', icon: 'icon-menu-alt', type: 'link'
   },
   {
+    path: '/tcategories/list', title: 'Translation Categories', icon: 'icon-menu-alt', type: 'link'
+  },
+  {
     path: '/translation/list', title: 'Translation Options', icon: 'icon-menu-alt', type: 'link'
   },
   // {

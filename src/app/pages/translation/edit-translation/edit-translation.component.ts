@@ -21,9 +21,11 @@ export class EditTranslationComponent implements OnInit {
   actualText;
   translatedText;
   languageId;
+  categoryId;
 
   userId;
   Categories = [];
+  variationsList = [];
   @Input() variationData;
   menuId;
   constructor(private fb: FormBuilder, private api: RestApiService, private helper: HelperService,
@@ -34,17 +36,25 @@ export class EditTranslationComponent implements OnInit {
     this.submitted = false;
     this.isDataLoaded = true;
     this.getLanguages();
+    this.getVariations();
 
     
     this.menuId = this.variationData._id;
-    this.actualText = this.variationData.actualText;
     this.translatedText = this.variationData.translatedText;
     this.languageId = this.variationData.languageId._id;
+    this.categoryId = this.variationData.categoryId._id;
+    
   }
 
   getLanguages() {
     this.api.get('language/get_all').then((response: any) => {
       this.Categories = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
+  getVariations() {
+    this.api.get('transCat/get_all').then((response: any) => {
+      this.variationsList = response.data;
       this.isDataLoaded = true;
     }).catch(err => console.log('Error', err));
   }
@@ -62,7 +72,7 @@ export class EditTranslationComponent implements OnInit {
   _sendSaveRequest() {
 
       var d = {
-        'actualText': this.actualText,
+        'categoryId': this.categoryId,
         'translatedText': this.translatedText,
         'languageId': this.languageId,
       };
@@ -83,8 +93,8 @@ export class EditTranslationComponent implements OnInit {
     });
   }
   validate(){
-    if(this.actualText === '' || this.actualText == undefined) {
-      this.helper.failureToast("Faliure"," Actual Text is required");
+    if(this.categoryId === '' || this.categoryId == undefined) {
+      this.helper.failureToast("Faliure"," Category is required");
       return false;
     }
     if(this.translatedText === '' || this.translatedText == undefined) {

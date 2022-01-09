@@ -3,12 +3,12 @@
   <div class="page-header">
     <div class="row">
       <div class="col-lg-6">
-        <h3>Translation Management
+        <h3>Translation Categories Management
           <!-- <small>Universal Admin Panel</small> -->
         </h3>
       </div>
       <div class="col-lg-6 text-right">
-        <button type="button" class="btn btn-pill btn-outline-primary btn-sm" (click)="openAddModal()">Add Translation</button>
+        <button type="button" class="btn btn-pill btn-outline-primary btn-sm" (click)="openAddModal()">Add Category</button>
       </div>
     </div>
   </div>
@@ -54,8 +54,7 @@ type = "line-scale"
                 <tr>
                   <th>Sr No</th>
                   <!-- <th>id</th> -->
-                  <th>Translated Text</th>
-                  <th>Language</th>
+                  <th>Name</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -64,8 +63,7 @@ type = "line-scale"
                   
                   <td>{{i+1}}</td>
                   <!-- <td>{{pc._id}}</td> -->
-                  <td>{{pc.translatedText}}</td>
-                  <td>{{pc.languageId.name}}</td>
+                  <td>{{pc.name}}</td>
                   <td> 
                     <button (click)="selectedVariation(pc)" type="button" class="btn btn-pill btn-outline-primary btn-sm" style="margin:10px">Edit</button>
 
