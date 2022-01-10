@@ -37,6 +37,8 @@ export class ItemAddComponent implements OnInit {
     scalingFlag: '',
     defaultScaling: '',
     autoPlayFlag: '',
+    LangcategoryId: '',
+    languageId: ''
   };
 
   itemImage = [];
@@ -57,6 +59,8 @@ export class ItemAddComponent implements OnInit {
   userId;
   Categories = [];
   Variations = [];
+  Languages = [];
+  Translations = [];
   defaultImage = '/assets/images/fbx.png';
 
   constructor(private fb: FormBuilder, private api: RestApiService, private helper: HelperService,
@@ -69,6 +73,8 @@ export class ItemAddComponent implements OnInit {
     this.isDataLoaded = true;
     this.getCategories();
     this.getVariations();
+    this.getLanguages();
+    this.getTranslationCategories();
   }
 
   getCategories() {
@@ -80,6 +86,19 @@ export class ItemAddComponent implements OnInit {
   getVariations() {
     this.api.get('variation/get_all').then((response: any) => {
       this.Variations = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
+
+  getLanguages() {
+    this.api.get('language/get_all').then((response: any) => {
+      this.Languages = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
+  getTranslationCategories() {
+    this.api.get('transCat/get_all').then((response: any) => {
+      this.Translations = response.data;
       this.isDataLoaded = true;
     }).catch(err => console.log('Error', err));
   }
@@ -108,6 +127,8 @@ export class ItemAddComponent implements OnInit {
       formData.append('scalingFlag', this.insertForm.scalingFlag);
       formData.append('defaultScaling', this.insertForm.defaultScaling);
       formData.append('autoPlayFlag', this.insertForm.autoPlayFlag);
+      formData.append('languageId', this.insertForm.languageId);
+      formData.append('languageCategoryId', this.insertForm.LangcategoryId);
       
       for(let i =0; i < this.categoryIcon.length; i++){
         formData.append("model", this.categoryIcon[i], this.categoryIcon[i]['name']);
@@ -276,6 +297,14 @@ export class ItemAddComponent implements OnInit {
     }
     if(this.scannedImageURL.length == 0) {
       this.helper.failureToast("Faliure","Image to Scan is required");
+      return false;
+    }
+    if(this.insertForm.languageId === '' || this.insertForm.languageId == undefined) {
+      this.helper.failureToast("Faliure"," Language is required");
+      return false;
+    }
+    if(this.insertForm.LangcategoryId === '' || this.insertForm.LangcategoryId == undefined) {
+      this.helper.failureToast("Faliure"," Category is required");
       return false;
     }
     

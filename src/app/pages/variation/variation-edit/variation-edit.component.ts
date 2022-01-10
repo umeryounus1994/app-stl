@@ -36,9 +36,12 @@ export class VariationEditComponent implements OnInit {
   categoryDefaultImage = [];
   categoryDefaultImageUrl = [];
 
-  
+  languageId;
+  categoryId;
 
   @Input() variationData;
+  Categories = [];
+  variationsList = [];
 
   constructor(
     private fb: FormBuilder, 
@@ -59,6 +62,21 @@ export class VariationEditComponent implements OnInit {
    
     this.downloadedCategoryIcon.push(this.variationData.reference_image)
     this.downloadedCategoryDefaultImage.push(this.variationData.model_image);
+    this.getLanguages();
+    this.getVariations();
+
+  }
+  getLanguages() {
+    this.api.get('language/get_all').then((response: any) => {
+      this.Categories = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
+  getVariations() {
+    this.api.get('transCat/get_all').then((response: any) => {
+      this.variationsList = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
   }
 
   submitData() {
@@ -75,6 +93,8 @@ export class VariationEditComponent implements OnInit {
     const formData: any = new FormData();
       formData.append('name', this.variationName);
       formData.append('description', this.variationDescription);
+      formData.append('languageId', this.languageId);
+      formData.append('categoryId', this.categoryId);
       for(let i =0; i < this.categoryIcon.length; i++){
         formData.append("reference_image", this.categoryIcon[i], this.categoryIcon[i]['name']);
       }
@@ -171,6 +191,14 @@ export class VariationEditComponent implements OnInit {
   validate(){
     if(this.variationName === '' || this.variationDescription == undefined) {
       this.helper.failureToast("Faliure"," Name and Description is required");
+      return false;
+    }
+    if(this.languageId === '' || this.languageId == undefined) {
+      this.helper.failureToast("Faliure"," Language is required");
+      return false;
+    }
+    if(this.categoryId === '' || this.categoryId == undefined) {
+      this.helper.failureToast("Faliure"," Category is required");
       return false;
     }
     if(this.categoryIconUrl.length == 0 && this.downloadedCategoryIcon.length == 0) {

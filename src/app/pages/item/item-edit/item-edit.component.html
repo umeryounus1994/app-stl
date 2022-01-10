@@ -68,6 +68,26 @@
         </div>
         <div class="col-md-4">
           <div class="form-group">
+            <label for="name">Language</label>
+            <select class="form-control input-air-primary" [(ngModel)]="insertForm.languageId" name="languageId">
+              <option value="" selected disabled>Select Language</option>
+              <option *ngFor="let lang of Languages" value="{{lang._id}}">{{lang.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="name">Translation Category</label>
+            <select class="form-control input-air-primary" [(ngModel)]="insertForm.LangcategoryId" name="LangcategoryId">
+              <option value="" selected disabled>Select Translation Category</option>
+              <option *ngFor="let langCat of Translations" value="{{langCat._id}}">{{langCat.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
             <label for="itemName">Description</label>
             <input name="description" type="text" [(ngModel)]="insertForm.description" required placeholder="Description"
               class="form-control form-control-alternative">

@@ -68,8 +68,12 @@ export class ItemEditComponent implements OnInit {
     scalingFlag: '',
     defaultScaling: '',
     autoPlayFlag: '',
+    LangcategoryId: '',
+    languageId: ''
   };
   defaultImage = '/assets/images/fbx.png';
+  Languages = [];
+  Translations = [];
   constructor(
     private fb: FormBuilder, 
     private api: RestApiService, 
@@ -97,6 +101,8 @@ export class ItemEditComponent implements OnInit {
     this.insertForm.scalingFlag = this.itemData.scalingFlag;
     this.insertForm.defaultScaling = this.itemData.defaultScaling;
     this.insertForm.autoPlayFlag = this.itemData.autoPlayFlag;
+    this.insertForm.languageId = this.itemData.languageId._id;
+    this.insertForm.LangcategoryId = this.itemData.languageCategoryId._id;
 
     this.downloadedCategoryIcon.push(this.itemData.model)
     this.downloadedCategoryDefaultImage.push(this.itemData.productImage);
@@ -104,8 +110,10 @@ export class ItemEditComponent implements OnInit {
 
     this.getCategories();
     this.getVariations();
-  }
 
+    this.getLanguages();
+    this.getTranslationCategories();
+  }
 
   getCategories() {
     this.api.get('category/get_all').then((response: any) => {
@@ -116,6 +124,20 @@ export class ItemEditComponent implements OnInit {
   getVariations() {
     this.api.get('variation/get_all').then((response: any) => {
       this.Variations = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
+
+
+  getLanguages() {
+    this.api.get('language/get_all').then((response: any) => {
+      this.Languages = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
+  getTranslationCategories() {
+    this.api.get('transCat/get_all').then((response: any) => {
+      this.Translations = response.data;
       this.isDataLoaded = true;
     }).catch(err => console.log('Error', err));
   }
@@ -145,7 +167,8 @@ export class ItemEditComponent implements OnInit {
       formData.append('scalingFlag', this.insertForm.scalingFlag);
       formData.append('defaultScaling', this.insertForm.defaultScaling);
       formData.append('autoPlayFlag', this.insertForm.autoPlayFlag);
-
+      formData.append('languageId', this.insertForm.languageId);
+      formData.append('languageCategoryId', this.insertForm.LangcategoryId);
 
       for(let i =0; i < this.categoryIcon.length; i++){
         formData.append("model", this.categoryIcon[i], this.categoryIcon[i]['name']);

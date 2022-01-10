@@ -24,7 +24,8 @@ export class CategoryEditComponent implements OnInit {
 
   categoryName;
   categoryDescription;
- 
+  languageId;
+  catId;
 
   // to show alreaded added images 
   downloadedCategoryIcon=[];
@@ -37,7 +38,8 @@ export class CategoryEditComponent implements OnInit {
   categoryDefaultImage = [];
   categoryDefaultImageUrl = [];
 
-  
+  Categories = [];
+  variationsList = [];
 
   @Input() categoryData;
 
@@ -55,11 +57,15 @@ export class CategoryEditComponent implements OnInit {
     this.submitted = false;
     this.isDataLoaded = true;
     this.categoryId = this.categoryData._id;
+    this.languageId = this.categoryData.languageId._id;
+    this.catId = this.categoryData.categoryId._id;
     this.categoryName = this.categoryData.name;
     this.categoryDescription = this.categoryData.description;
    
     this.downloadedCategoryIcon.push(this.categoryData.category_icon)
     this.downloadedCategoryDefaultImage.push(this.categoryData.category_default_image);
+    this.getLanguages();
+    this.getVariations();
   }
 
   submitData() {
@@ -70,12 +76,25 @@ export class CategoryEditComponent implements OnInit {
       this._sendSaveRequest();
     }
   }
-
+  getLanguages() {
+    this.api.get('language/get_all').then((response: any) => {
+      this.Categories = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
+  getVariations() {
+    this.api.get('transCat/get_all').then((response: any) => {
+      this.variationsList = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
   _sendSaveRequest() {
 
     const formData: any = new FormData();
       formData.append('name', this.categoryName);
       formData.append('description', this.categoryDescription);
+      formData.append('languageId', this.languageId);
+      formData.append('categoryId', this.catId);
       for(let i =0; i < this.categoryIcon.length; i++){
         formData.append("category_icon", this.categoryIcon[i], this.categoryIcon[i]['name']);
       }
@@ -187,6 +206,14 @@ export class CategoryEditComponent implements OnInit {
   validate(){
     if(this.categoryName === '' || this.categoryName == undefined) {
       this.helper.failureToast("Faliure"," Category Name is required");
+      return false;
+    }
+    if(this.languageId === '' || this.languageId == undefined) {
+      this.helper.failureToast("Faliure"," Language is required");
+      return false;
+    }
+    if(this.catId === '' || this.catId == undefined) {
+      this.helper.failureToast("Faliure"," Category is required");
       return false;
     }
     if(this.categoryIconUrl.length == 0 && this.downloadedCategoryIcon.length == 0) {

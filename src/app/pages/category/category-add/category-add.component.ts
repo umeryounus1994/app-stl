@@ -22,12 +22,16 @@ export class CategoryAddComponent implements OnInit {
 
   categoryName;
   categoryDescription;
-
+  languageId;
+  categoryId;
   categoryIcon = [];
   categoryIconUrl = [];
 
   categoryDefaultImage = [];
   categoryDefaultImageUrl = [];
+
+  Categories = [];
+  variationsList = [];
 
   userId;
 
@@ -39,9 +43,22 @@ export class CategoryAddComponent implements OnInit {
 
     this.submitted = false;
     this.isDataLoaded = true;
+    this.getLanguages();
+    this.getVariations();
 
   }
-
+  getLanguages() {
+    this.api.get('language/get_all').then((response: any) => {
+      this.Categories = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
+  getVariations() {
+    this.api.get('transCat/get_all').then((response: any) => {
+      this.variationsList = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
   submitData() {
     this.submitted = true;
 
@@ -56,6 +73,8 @@ export class CategoryAddComponent implements OnInit {
     const formData: any = new FormData();
       formData.append('name', this.categoryName);
       formData.append('description', this.categoryDescription);
+      formData.append('languageId', this.languageId);
+      formData.append('categoryId', this.categoryId);
       for(let i =0; i < this.categoryIcon.length; i++){
         formData.append("category_icon", this.categoryIcon[i], this.categoryIcon[i]['name']);
       }
@@ -154,6 +173,14 @@ export class CategoryAddComponent implements OnInit {
   validate(){
     if(this.categoryName === '' || this.categoryName == undefined) {
       this.helper.failureToast("Faliure"," Category Name is required");
+      return false;
+    }
+    if(this.languageId === '' || this.languageId == undefined) {
+      this.helper.failureToast("Faliure"," Language is required");
+      return false;
+    }
+    if(this.categoryId === '' || this.categoryId == undefined) {
+      this.helper.failureToast("Faliure"," Category is required");
       return false;
     }
     if(this.categoryIconUrl.length == 0) {

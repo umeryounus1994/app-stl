@@ -54,6 +54,7 @@ type = "line-scale"
                 <tr>
                   <th>Sr No</th>
                   <th>Name</th>
+                  <!-- <th>Language</th> -->
                   <th>Category/Variation</th>
                   <th>Model</th>
                   <th>Product Image</th>
@@ -67,6 +68,7 @@ type = "line-scale"
                   
                   <td>{{i+1}}</td>
                   <td>{{pc.name}}</td>
+                  <!-- <td>{{pc.languageCategoryId.name}}</td> -->
                   <td>{{pc.categoryId.name}} - {{pc.variationId.name}}</td>
                   <td><a href="{{pc.model}}">View Model</a></td>
                   <td><img src="{{pc.productImage}}" style="height: 55px; width: 55px;"></td>
