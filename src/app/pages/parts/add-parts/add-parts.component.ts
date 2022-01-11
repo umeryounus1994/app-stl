@@ -22,7 +22,8 @@ export class AddPartsComponent implements OnInit {
   name;
   description;
   productId;
-
+  languageId;
+  categoryId;
   categoryIcon = [];
   categoryIconUrl = [];
 
@@ -30,7 +31,8 @@ export class AddPartsComponent implements OnInit {
   categoryDefaultImageUrl = [];
   Products;
   userId;
-
+  Categories = [];
+  variationsList = [];
   constructor(private fb: FormBuilder, private api: RestApiService, private helper: HelperService,
     private auth: AuthService, private router: Router, private activeModal: NgbActiveModal) {
   }
@@ -40,7 +42,21 @@ export class AddPartsComponent implements OnInit {
     this.submitted = false;
     this.isDataLoaded = true;
     this.getProducts();
+    this.getLanguages();
+    this.getVariations();
 
+  }
+  getLanguages() {
+    this.api.get('language/get_all').then((response: any) => {
+      this.Categories = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
+  getVariations() {
+    this.api.get('transCat/get_all').then((response: any) => {
+      this.variationsList = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
   }
   getProducts() {
     this.api.get('products/get_all').then((response: any) => {
@@ -63,6 +79,8 @@ export class AddPartsComponent implements OnInit {
       formData.append('name', this.name);
       formData.append('description', this.description);
       formData.append('productId', this.productId);
+      formData.append('languageId', this.languageId);
+      formData.append('categoryId', this.categoryId);
       for(let i =0; i < this.categoryIcon.length; i++){
         formData.append("imageFile", this.categoryIcon[i], this.categoryIcon[i]['name']);
       }
@@ -158,6 +176,14 @@ export class AddPartsComponent implements OnInit {
   validate(){
     if(this.name === '' || this.name == undefined) {
       this.helper.failureToast("Faliure"," Name is required");
+      return false;
+    }
+    if(this.languageId === '' || this.languageId == undefined) {
+      this.helper.failureToast("Faliure"," Language is required");
+      return false;
+    }
+    if(this.categoryId === '' || this.categoryId == undefined) {
+      this.helper.failureToast("Faliure"," Category is required");
       return false;
     }
     if(this.description === '' || this.description == undefined) {

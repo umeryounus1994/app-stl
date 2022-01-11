@@ -33,7 +33,10 @@ export class EditPartsComponent implements OnInit {
   variationId;
   @Input() variationData;
   downloadedCategoryIcon=[];
-
+  Categories = [];
+  variationsList = [];
+  languageId;
+  categoryId;
   constructor(private fb: FormBuilder, private api: RestApiService, private helper: HelperService,
     private auth: AuthService, private router: Router, private activeModal: NgbActiveModal) {
   }
@@ -43,18 +46,32 @@ export class EditPartsComponent implements OnInit {
     this.submitted = false;
     this.isDataLoaded = true;
     this.getProducts();
+    this.getLanguages();
+    this.getVariations();
     this.variationId = this.variationData._id;
     this.name = this.variationData.name;
     this.description = this.variationData.description;
     this.productId = this.variationData.productId._id;
-   
     this.downloadedCategoryIcon.push(this.variationData.imageFile)
-    this.getProducts();
+    this.languageId = this.variationData.languageId._id;
+    this.categoryId = this.variationData.categoryId._id;
 
   }
   getProducts() {
     this.api.get('products/get_all').then((response: any) => {
       this.Products = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
+  getLanguages() {
+    this.api.get('language/get_all').then((response: any) => {
+      this.Categories = response.data;
+      this.isDataLoaded = true;
+    }).catch(err => console.log('Error', err));
+  }
+  getVariations() {
+    this.api.get('transCat/get_all').then((response: any) => {
+      this.variationsList = response.data;
       this.isDataLoaded = true;
     }).catch(err => console.log('Error', err));
   }
@@ -73,6 +90,8 @@ export class EditPartsComponent implements OnInit {
       formData.append('name', this.name);
       formData.append('description', this.description);
       formData.append('productId', this.productId);
+      formData.append('languageId', this.languageId);
+      formData.append('categoryId', this.categoryId);
       for(let i =0; i < this.categoryIcon.length; i++){
         formData.append("imageFile", this.categoryIcon[i], this.categoryIcon[i]['name']);
       }
@@ -168,6 +187,14 @@ export class EditPartsComponent implements OnInit {
   validate(){
     if(this.name === '' || this.name == undefined) {
       this.helper.failureToast("Faliure"," Name is required");
+      return false;
+    }
+    if(this.languageId === '' || this.languageId == undefined) {
+      this.helper.failureToast("Faliure"," Language is required");
+      return false;
+    }
+    if(this.categoryId === '' || this.categoryId == undefined) {
+      this.helper.failureToast("Faliure"," Category is required");
       return false;
     }
     if(this.description === '' || this.description == undefined) {
