@@ -2,3 +2,18 @@
 .modal-dialog{
     max-width: 800px !important;
 }
+
+.toast-container .toast {
+    position: relative !important;
+    overflow: hidden !important;
+    margin: 0 0 6px !important;
+    padding: 15px 15px 15px 50px !important;
+    width: 300px !important;
+    border-radius: 3px 3px 3px 3px !important;
+    background-position: 15px center !important;
+    background-repeat: no-repeat !important;
+    background-size: 24px !important;
+    box-shadow: 0 0 12px #999999 !important;
+    color: white !important;
+    background-color: red !important;
+}

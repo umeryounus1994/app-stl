@@ -118,7 +118,7 @@ export class ItemAddComponent implements OnInit {
       formData.append('categoryId', this.insertForm.categoryId);
       formData.append('description', this.insertForm.description);
       formData.append('variationFlag', this.insertForm.variationFlag);
-      formData.append('variationId', this.insertForm.variationId);
+    //  formData.append('variationId', this.insertForm.variationId);
       formData.append('width', this.insertForm.width);
       formData.append('height', this.insertForm.height);
       formData.append('price', this.insertForm.price);

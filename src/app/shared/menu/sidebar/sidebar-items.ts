@@ -20,9 +20,9 @@ export const MenuItemsAdmin: Menu[] = [
   {
     path: '/category/list', title: 'Category', icon: 'icon-menu-alt', type: 'link'
   },
-  {
-    path: '/variation/list', title: 'Variations', icon: 'icon-menu-alt', type: 'link'
-  },
+  // {
+  //   path: '/variation/list', title: 'Variations', icon: 'icon-menu-alt', type: 'link'
+  // },
   {
     path: '/products/list', title: 'Products', icon: 'icon-menu-alt', type: 'link'
   },

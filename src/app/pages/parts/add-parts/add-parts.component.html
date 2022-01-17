@@ -45,7 +45,7 @@
             <div class="form-group">
               <label for="itemName">Product</label>
               <select class="form-control input-air-primary" [(ngModel)]="productId" name="productId" id="productId">
-                <option value="" selected>Select Product</option>
+                <option value="" selected disabled>Select Product</option>
                 <option *ngFor="let p of Products" value="{{p._id}}">{{p.name}}
                 </option>
               </select>

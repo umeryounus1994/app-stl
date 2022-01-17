@@ -175,27 +175,27 @@ export class AddPartsComponent implements OnInit {
 
   validate(){
     if(this.name === '' || this.name == undefined) {
-      this.helper.failureToast("Faliure"," Name is required");
+      this.helper.failureToast("Failure"," Name is required");
       return false;
     }
     if(this.languageId === '' || this.languageId == undefined) {
-      this.helper.failureToast("Faliure"," Language is required");
+      this.helper.failureToast("Failure"," Language is required");
       return false;
     }
     if(this.categoryId === '' || this.categoryId == undefined) {
-      this.helper.failureToast("Faliure"," Category is required");
+      this.helper.failureToast("Failure"," Category is required");
       return false;
     }
     if(this.description === '' || this.description == undefined) {
-      this.helper.failureToast("Faliure"," Description is required");
+      this.helper.failureToast("Failure"," Description is required");
       return false;
     }
     if(this.productId === '' || this.productId == undefined) {
-      this.helper.failureToast("Faliure"," Product is required");
+      this.helper.failureToast("Failure"," Product is required");
       return false;
     }
     if(this.categoryIconUrl.length == 0) {
-      this.helper.failureToast("Faliure"," Image is required");
+      this.helper.failureToast("Failure"," Image is required");
       return false;
     }       
     else{

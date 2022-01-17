@@ -9,10 +9,10 @@ export const content: Routes = [
     path: 'category',
     loadChildren: './pages/category/category.module#CategoryModule'
   },
-  {
-    path: 'variation',
-    loadChildren: './pages/variation/variation.module#VariationModule'
-  },
+  // {
+  //   path: 'variation',
+  //   loadChildren: './pages/variation/variation.module#VariationModule'
+  // },
   {
     path: 'sub_category',
     loadChildren: './pages/sub-category/sub-category.module#SubCategoryModule'

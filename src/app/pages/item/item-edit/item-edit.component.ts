@@ -91,7 +91,7 @@ export class ItemEditComponent implements OnInit {
     this.insertForm.name = this.itemData.name;
     this.insertForm.categoryId = this.itemData.categoryId._id;
     this.insertForm.variationFlag = this.itemData.variationFlag;
-    this.insertForm.variationId = this.itemData.variationId._id;
+    //this.insertForm.variationId = this.itemData.variationId._id;
     this.insertForm.description = this.itemData.description;
     this.insertForm.width = this.itemData.width;
     this.insertForm.height = this.itemData.height;
@@ -158,7 +158,7 @@ export class ItemEditComponent implements OnInit {
       formData.append('categoryId', this.insertForm.categoryId);
       formData.append('description', this.insertForm.description);
       formData.append('variationFlag', this.insertForm.variationFlag);
-      formData.append('variationId', this.insertForm.variationId);
+      //formData.append('variationId', this.insertForm.variationId);
       formData.append('width', this.insertForm.width);
       formData.append('height', this.insertForm.height);
       formData.append('price', this.insertForm.price);

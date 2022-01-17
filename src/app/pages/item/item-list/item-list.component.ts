@@ -33,6 +33,7 @@ export class ItemListComponent implements OnInit {
 
   getProducts() {
     this.api.get('products/get_all').then((response: any) => {
+      this.pinCategories=[];
       this.pinCategories = response.data;
       this.isDataLoaded = true;
     }).catch(err => console.log('Error', err));
@@ -80,7 +81,7 @@ export class ItemListComponent implements OnInit {
           if (response.status === true) {
             this.spinner.hide();
             this.helper.successToast('Success', "Product Deleted Successfully");
-            this.getProducts();
+           location.reload();
           } else {
             this.spinner.hide();
             this.helper.failureToast('Status', response.message);

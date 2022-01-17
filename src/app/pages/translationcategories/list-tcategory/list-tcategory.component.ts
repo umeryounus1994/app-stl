@@ -55,7 +55,7 @@ export class ListTcategoryComponent implements OnInit {
   }
 
   deleteVariation(variationId) {
-    let text = 'You want to delete this Texture?';
+    let text = 'You want to delete this Category?';
     Swal({
       title: 'Are you sure?',
       text: text,
@@ -75,12 +75,12 @@ export class ListTcategoryComponent implements OnInit {
       const formData: any = new FormData();
       formData.append('state', "deleted");
         this.spinner.show();
-        this.api.patch('texture/update/',variationId, formData)
+        this.api.patch('transCat/update/',variationId, formData)
         .then((response: any) => {
           if (response.status === true) {
             this.spinner.hide();
-            this.helper.successToast('Success', "Texture Deleted Successfully");
-            this.getVariations();
+            this.helper.successToast('Success', " Deleted Successfully");
+            location.reload();
           } else {
             this.spinner.hide();
             this.helper.failureToast('Status', response.message);
