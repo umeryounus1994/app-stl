@@ -43,6 +43,12 @@ export class EditTranslationComponent implements OnInit {
     this.translatedText = this.variationData.translatedText;
     this.languageId = this.variationData.languageId._id;
     this.categoryId = this.variationData.categoryId._id;
+    if(this.variationData.actualText != undefined){
+      this.actualText = this.variationData.actualText;
+    } else {
+      this.actualText = '';
+    }
+  
     
   }
 
@@ -75,6 +81,7 @@ export class EditTranslationComponent implements OnInit {
         'categoryId': this.categoryId,
         'translatedText': this.translatedText,
         'languageId': this.languageId,
+        'actualText' : this.actualText
       };
 
 
@@ -95,6 +102,10 @@ export class EditTranslationComponent implements OnInit {
   validate(){
     if(this.categoryId === '' || this.categoryId == undefined) {
       this.helper.failureToast("Faliure"," Category is required");
+      return false;
+    }
+    if(this.actualText === '' || this.actualText == undefined) {
+      this.helper.failureToast("Faliure"," Actual Text is required");
       return false;
     }
     if(this.translatedText === '' || this.translatedText == undefined) {

@@ -27,7 +27,13 @@
     <div *ngIf="isDataLoaded">
 
       <div class="row">
-        
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="name">Actual Text</label>
+            <input name="actualText" type="text" [(ngModel)]="actualText" placeholder="Actual Text"
+              class="form-control form-control-alternative">
+          </div>
+        </div>
         <div class="col-md-4">
           <div class="form-group">
             <label for="name">Translated Text</label>

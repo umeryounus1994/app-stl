@@ -65,7 +65,8 @@ export class AddTranslationComponent implements OnInit {
       var d = {
         'translatedText': this.translatedText,
         'languageId': this.languageId,
-        'categoryId': this.categoryId
+        'categoryId': this.categoryId,
+        'actualText': this.actualText
       };
 
 
@@ -86,6 +87,10 @@ export class AddTranslationComponent implements OnInit {
   validate(){
     if(this.translatedText === '' || this.translatedText == undefined) {
       this.helper.failureToast("Faliure"," Translated Text is required");
+      return false;
+    }
+    if(this.actualText === '' || this.actualText == undefined) {
+      this.helper.failureToast("Faliure"," Actual Text is required");
       return false;
     }
     if(this.languageId === '' || this.languageId == undefined) {
