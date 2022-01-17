@@ -72,15 +72,17 @@ export class ListTcategoryComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
 
-      const formData: any = new FormData();
-      formData.append('state', "deleted");
+      var d = {
+        "state": "deleted",
+        "categoryId": variationId
+      }
         this.spinner.show();
-        this.api.patch('transCat/update/',variationId, formData)
+        this.api.post('transCat/update/', d)
         .then((response: any) => {
           if (response.status === true) {
             this.spinner.hide();
             this.helper.successToast('Success', " Deleted Successfully");
-            location.reload();
+            //location.reload();
           } else {
             this.spinner.hide();
             this.helper.failureToast('Status', response.message);
