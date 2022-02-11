@@ -136,9 +136,9 @@ export class ItemAddComponent implements OnInit {
       for(let i =0; i < this.categoryDefaultImage.length; i++){
         formData.append("productImage", this.categoryDefaultImage[i], this.categoryDefaultImage[i]['name']);
       }
-      for(let i =0; i < this.scannedImage.length; i++){
-        formData.append("scannedImage", this.scannedImage[i], this.scannedImage[i]['name']);
-      }
+      // for(let i =0; i < this.scannedImage.length; i++){
+      //   formData.append("scannedImage", this.scannedImage[i], this.scannedImage[i]['name']);
+      // }
 
     this.api.post('products/add', formData).then((response: any) => {
 
@@ -229,28 +229,28 @@ export class ItemAddComponent implements OnInit {
     }
   }
 
-  if(type == 'scannedImage'){
-    const files: Array<File> = event.target.files;
+//   if(type == 'scannedImage'){
+//     const files: Array<File> = event.target.files;
 
-    if(this.scannedImageURL.length >0){
-      alert("You can add only one Image");
-      return false;
-    }
+//     if(this.scannedImageURL.length >0){
+//       alert("You can add only one Image");
+//       return false;
+//     }
 
-    else{
-      for(let i =0; i < files.length; i++){
-        let reader = new FileReader();
+//     else{
+//       for(let i =0; i < files.length; i++){
+//         let reader = new FileReader();
         
-        reader.onload = (e: any) => {
-          this.scannedImageURL.push(e.target.result);
-       }
+//         reader.onload = (e: any) => {
+//           this.scannedImageURL.push(e.target.result);
+//        }
 
-      reader.readAsDataURL(files[i]);
-      this.scannedImage.push(event.target.files[i]); 
+//       reader.readAsDataURL(files[i]);
+//       this.scannedImage.push(event.target.files[i]); 
 
-    };
-  }
-}
+//     };
+//   }
+// }
 
   }
 
@@ -264,10 +264,10 @@ export class ItemAddComponent implements OnInit {
       this.categoryDefaultImage.splice(index,1);
       this.categoryDefaultImageUrl.splice(index,1);
     }
-    if(type == 'scannedImage'){
-      this.scannedImage.splice(index,1);
-      this.scannedImageURL.splice(index,1);
-    }
+    // if(type == 'scannedImage'){
+    //   this.scannedImage.splice(index,1);
+    //   this.scannedImageURL.splice(index,1);
+    // }
   }
 
   validate(){
@@ -295,10 +295,10 @@ export class ItemAddComponent implements OnInit {
       this.helper.failureToast("Faliure","Product Image is required");
       return false;
     }
-    if(this.scannedImageURL.length == 0) {
-      this.helper.failureToast("Faliure","Image to Scan is required");
-      return false;
-    }
+    // if(this.scannedImageURL.length == 0) {
+    //   this.helper.failureToast("Faliure","Image to Scan is required");
+    //   return false;
+    // }
     if(this.insertForm.languageId === '' || this.insertForm.languageId == undefined) {
       this.helper.failureToast("Faliure"," Language is required");
       return false;
