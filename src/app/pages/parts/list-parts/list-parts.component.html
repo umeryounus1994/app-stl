@@ -71,7 +71,8 @@ type = "line-scale"
                   <td>{{pc.languageId.name}}</td>
                   <td>{{pc.description}}</td>
                   <td><img src="{{pc.imageFile}}" style="height: 55px; width: 55px;"></td>
-                  <td>{{pc.productId.name}}</td>
+                  <td *ngIf="pc.productId != null">{{pc.productId.name}}</td>
+                  <td *ngIf="pc.productId == null">N/A</td>
                   <td> 
                     <button (click)="selectedVariation(pc)" type="button" class="btn btn-pill btn-outline-primary btn-sm" style="margin:10px">Edit</button>
 
