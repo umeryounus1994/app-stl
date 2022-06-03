@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminGuard } from 'src/app/guards/admin/admin.guard';
-import { LoginComponent } from './login/login.component';
+import { UsersListComponent } from './users-list/users-list.component';
 
 const routes: Routes = [
   {
     path: '',
     children: [
       {
-        path: 'login',
-        component: LoginComponent
-      }
+        path: 'list',
+        component: UsersListComponent,
+        canActivate: [AdminGuard]
+      },
+
     ]
   }
 ];
@@ -19,4 +21,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AuthRoutingModule { }
+export class UsersRoutingModule { }
