@@ -10,9 +10,12 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
+import { TokenlistComponent } from './tokenlist/tokenlist.component';
+import { TokenAddComponent } from './token-add/token-add.component';
+import { TokenEditComponent } from './token-edit/token-edit.component';
 
 @NgModule({
-  declarations: [UsersListComponent, UsersAddComponent, UsersEditComponent],
+  declarations: [UsersListComponent, UsersAddComponent, UsersEditComponent, TokenlistComponent, TokenAddComponent, TokenEditComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,
@@ -23,6 +26,6 @@ import { DataTablesModule } from 'angular-datatables';
     ReactiveFormsModule,
     NgxSpinnerModule
   ],
-  entryComponents: [UsersAddComponent, UsersEditComponent]
+  entryComponents: [UsersAddComponent, UsersEditComponent, TokenAddComponent, TokenEditComponent]
 })
 export class UsersModule { }
